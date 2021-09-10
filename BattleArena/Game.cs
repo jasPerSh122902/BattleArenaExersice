@@ -7,6 +7,13 @@ namespace BattleArena
     /// <summary>
     /// Represents any entity that exists in game
     /// </summary>
+    struct ememies
+    {
+        public string name;
+        public float health;
+        public float attackPower;
+        public float defensePower;
+    }
     struct Character
     {
         public string name;
@@ -29,6 +36,8 @@ namespace BattleArena
         /// </summary>
         public void Run()
         {
+
+
         }
 
         /// <summary>
@@ -146,6 +155,13 @@ namespace BattleArena
         /// <returns>The amount of damage done to the defender</returns>
         float CalculateDamage(float attackPower, float defensePower)
         {
+            float damage = Attack - defence;
+            if (damage <= defence)
+            {
+                damage = 0;
+            }
+
+            return damage;
         }
 
         /// <summary>
