@@ -7,7 +7,7 @@ namespace BattleArena
     /// <summary>
     /// Represents any entity that exists in game
     /// </summary>
-    struct ememies
+    struct enemy
     {
         public string name;
         public float health;
@@ -26,10 +26,32 @@ namespace BattleArena
     {
         bool gameOver;
         int currentScene;
+
+
         Character player;
+        string playerName = "";
+        int playerHealth = 0;
+        int playerDamage = 0;
+        int playerDefence = 0;
+
         Character[] enemies;
+        string enemieName = "";
+        int enemieHealth = 0;
+        int enemieDamage = 0;
+        int enemieDefence = 0;
+
         private int currentEnemyIndex = 0;
         private Character currentEnemy;
+
+        void EmemyIndex()
+        {
+            if (EmemyIndex == 0)
+            {
+                enemy = "claud";
+            }
+
+            if(EmemyIndex ==)
+        }
 
         /// <summary>
         /// Function that starts the main game loop
@@ -145,6 +167,11 @@ namespace BattleArena
         /// <param name="character">The character that will have its stats shown</param>
         void DisplayStats(Character character)
         {
+            Console.WriteLine("Name " + name);
+            Console.WriteLine("Health " + health);
+            Console.WriteLine("Damage " + damage);
+            Console.WriteLine("Defence " + defence);
+            
         }
 
         /// <summary>
