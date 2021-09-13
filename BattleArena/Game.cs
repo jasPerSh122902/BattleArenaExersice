@@ -43,7 +43,7 @@ namespace BattleArena
         Enemy[] enemies;
 
 
-        Enemy EnemyIndex(int EnemyIndex)
+        Enemy EnemyIndex(int currentEnemyIndex)
         {
             Enemy enemy;
             enemy.name = "None";
@@ -52,20 +52,20 @@ namespace BattleArena
             enemy.health = 1;
 
 
-            if (EnemyIndex == 0)
+            if (currentEnemyIndex == 0)
             {
                 enemy = Claud;
             }
 
-            else if (EnemyIndex == 1)
+            else if (currentEnemyIndex == 1)
             {
                 enemy = Rob;
             }
-            else if (EnemyIndex == 2)
+            else if (currentEnemyIndex == 2)
             {
                 enemy = Wompus;
             }
-            else if (EnemyIndex == 3)
+            else if (currentEnemyIndex == 3)
             {
                 enemy = Theo;
             }
@@ -121,6 +121,16 @@ namespace BattleArena
             Theo.defense = 20;
             Theo.health = 15;
 
+            character.job = "Gunner";
+            character.attack = 80;
+            character.defense = 15;
+            character.health = 15;
+
+            character.job = "Raider";
+            character.attack = 40;
+            character.defense = 25;
+            character.health = 20;
+
             enemies = new Enemy[] { Rob, Wompus, Theo, Claud };
             
             ResetCurrentEnemies();
@@ -133,7 +143,6 @@ namespace BattleArena
         {
             
             DisplayCurrentScene();
-            Console.Clear();
         }
 
         void End()
@@ -196,7 +205,7 @@ namespace BattleArena
                     Console.WriteLine("Invalid Input");
                     Console.ReadKey();
                 }
-
+                Console.Clear();
             }
             return inputReceived;
         }
@@ -204,7 +213,7 @@ namespace BattleArena
         /// <summary>
         /// Calls the appropriate function(s) based on the current scene index
         /// </summary>
-        void DisplayCurrentScene()
+        void WompustheFith()
         {
             switch(currentScene)
             {
@@ -272,6 +281,26 @@ namespace BattleArena
                 gameOver = true;
             }
         }
+
+        void DisplayCurrentScene()
+        
+        
+        {
+            if (currentScene == 0)
+            {
+                DisplayMainMenu();
+                CharacterSelection();
+            }
+            if (currentScene == 1)
+            {
+                Battle1();
+            }
+            if(currentScene == 2)
+            {
+                DisplayRestartMenu();
+            }
+
+        }
         /// <summary>
         /// Displays text asking for the players name. Doesn't transition to the next section
         /// until the player decides to keep the name.
@@ -290,46 +319,44 @@ namespace BattleArena
         public void CharacterSelection()
         {
             Character character;
-            bool characterselected = false;
+            bool characterselected = true;
             Console.WriteLine("You martch on to the areana with pride and look around");
             Console.WriteLine("You see familar faces but all look exited or grim for the upcoming event");
             Console.WriteLine("Attention all contendents this is a battle arena and so we shal watch you fight");
+            
             Console.WriteLine("All of you pick up your weapons and begin");
             while (characterselected = true)
             {
-                GetInput("choose your caractor", "1. Raider", "2. Gunner");
+                
+                int input = GetInput("choose your caractor", "1. Raider", "2. Gunner");
                 {
-                    
-                    if(!(input == "1" || input == "2"))
+                    if (input == 1)
                     {
-                        if (input == "1" || input == "Raider")
-                        {
-                            character.job = "Raider";
-                            character.attack = 40;
-                            character.defense = 25;
-                            character.health = 20;
-                            characterselected = true;
-                        }
-                        else if (input == "2" || input == "Gunner")
-                        {
-                            character.job = "Gunner";
-                            character.attack = 80;
-                            character.defense = 15;
-                            character.health = 15;
-                            characterselected = true;
-                        }
+                        character.job = "Raider";
+                        character.attack = 40;
+                        character.defense = 25;
+                        character.health = 20;
+                        characterselected = false;
+                        currentScene = 1;
                     }
-
-                    else if (input == "")
+                    else if (input == 2)
+                    {
+                        character.job = "Gunner";
+                        character.attack = 80;
+                        character.defense = 15;
+                        character.health = 15;
+                        characterselected = false;
+                        currentScene = 1;
+                    }
+                    else
                     {
                         Console.WriteLine("NO invalid input go it again");
                     }
                 }
 
+                break;
+
             }
-
-
-
         }
 
         /// <summary>
@@ -396,7 +423,7 @@ namespace BattleArena
             Console.WriteLine("1. attack ");
             Console.WriteLine("2. move out of the way");
 
-            while (character.health > 0 && Claud.health > 0)
+            while (character.health > 0 || currentEnemy.health > 0)
             {
 
                 //Print 
@@ -405,21 +432,26 @@ namespace BattleArena
                 DisplayStatsEnemy(currentEnemy);
 
                 //
-
                 float damageTaken = PlayerAttack(ref character, ref Claud);
+                currentEnemy.health -= damageTaken;
                 Console.WriteLine(Claud.name + "has taken " + damageTaken);
 
                 //
                 damageTaken = EnemyAtack(ref Claud, ref character);
                 character.health -= damageTaken;
-                Console.WriteLine(Claud.name + "has taken " + damageTaken);
+                Console.WriteLine(playerName + "has taken " + damageTaken);
 
              
                 Console.ReadKey();
                 Console.Clear();
+
+                CheckBattleResults();
+                UpdateCurrentEnemy();
+                currentScene = 2;
+                break;
+                
             }
-
-
+           
         }
 
         public void Battle2()
@@ -438,7 +470,6 @@ namespace BattleArena
             if (currentEnemy.health <= 0)
             {
 
-               
                 currentEnemyIndex++;
 
                 if (TheAtemptAtEnd())
@@ -459,17 +490,19 @@ namespace BattleArena
             string matachEnd = "Next Enemy";
 
 
-            if (character.health <= 0 && Claud.health <= 0)
+            if (character.health <= 0 && currentEnemy.health <= 0)
             {
                 matachEnd = "Draw";
             }
-            if (character.health > 0)
+            if (character.health < 0)
             {
+                Console.WriteLine("Disapointing");
                 matachEnd = character.name;
             }
-            else if (Claud.health > 0)
+            else if (currentEnemy.health < 0)
             {
-                matachEnd = Claud.name;
+                Console.WriteLine("You win this time");
+                matachEnd = currentEnemy.name;
             }
 
             return matachEnd;
