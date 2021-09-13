@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+//this is a test
+//the is the commint  for update
 namespace BattleArena
 {
     /// <summary>
@@ -132,7 +134,7 @@ namespace BattleArena
             character.health = 20;
 
             enemies = new Enemy[] { Rob, Wompus, Theo, Claud };
-            
+
             ResetCurrentEnemies();
         }
 
@@ -141,7 +143,7 @@ namespace BattleArena
         /// </summary>
         public void Update()
         {
-            
+
             DisplayCurrentScene();
         }
 
@@ -215,7 +217,7 @@ namespace BattleArena
         /// </summary>
         void WompustheFith()
         {
-            switch(currentScene)
+            switch (currentScene)
             {
                 case 0:
                     CharacterSelection();
@@ -283,8 +285,8 @@ namespace BattleArena
         }
 
         void DisplayCurrentScene()
-        
-        
+
+
         {
             if (currentScene == 0)
             {
@@ -295,7 +297,7 @@ namespace BattleArena
             {
                 Battle1();
             }
-            if(currentScene == 2)
+            if (currentScene == 2)
             {
                 DisplayRestartMenu();
             }
@@ -323,11 +325,11 @@ namespace BattleArena
             Console.WriteLine("You martch on to the areana with pride and look around");
             Console.WriteLine("You see familar faces but all look exited or grim for the upcoming event");
             Console.WriteLine("Attention all contendents this is a battle arena and so we shal watch you fight");
-            
+
             Console.WriteLine("All of you pick up your weapons and begin");
             while (characterselected = true)
             {
-                
+
                 int input = GetInput("choose your caractor", "1. Raider", "2. Gunner");
                 {
                     if (input == 1)
@@ -372,7 +374,7 @@ namespace BattleArena
             Console.WriteLine("Defence " + character.defense);
 
         }
-         void DisplayStatsEnemy(Enemy enemy)
+        void DisplayStatsEnemy(Enemy enemy)
         {
             Console.WriteLine("Name " + enemy.name);
             Console.WriteLine("Health " + enemy.health);
@@ -441,7 +443,7 @@ namespace BattleArena
                 character.health -= damageTaken;
                 Console.WriteLine(playerName + "has taken " + damageTaken);
 
-             
+
                 Console.ReadKey();
                 Console.Clear();
 
@@ -449,9 +451,9 @@ namespace BattleArena
                 UpdateCurrentEnemy();
                 currentScene = 2;
                 break;
-                
+
             }
-           
+
         }
 
         public void Battle2()
