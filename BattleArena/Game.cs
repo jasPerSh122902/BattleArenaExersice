@@ -311,6 +311,7 @@ namespace BattleArena
         void GetPlayerName()
         {
             Console.WriteLine("Please enter your name.");
+            Console.WriteLine(">");
             playerName = Console.ReadLine();
             Console.WriteLine("Hello, " + playerName);
         }
@@ -322,43 +323,36 @@ namespace BattleArena
         public void CharacterSelection()
         {
             Character character;
-            bool characterselected = true;
             Console.WriteLine("You martch on to the areana with pride and look around");
             Console.WriteLine("You see familar faces but all look exited or grim for the upcoming event");
             Console.WriteLine("Attention all contendents this is a battle arena and so we shal watch you fight");
 
             Console.WriteLine("All of you pick up your weapons and begin");
-            while (characterselected = true)
+
+            int input = GetInput("choose your caractor", "1. Raider", "2. Gunner");
             {
-
-                int input = GetInput("choose your caractor", "1. Raider", "2. Gunner");
+                if (input == 1)
                 {
-                    if (input == 1)
-                    {
-                        character.job = "Raider";
-                        character.attack = 40;
-                        character.defense = 25;
-                        character.health = 20;
-                        characterselected = false;
-                        currentScene = 1;
-                    }
-                    else if (input == 2)
-                    {
-                        character.job = "Gunner";
-                        character.attack = 80;
-                        character.defense = 15;
-                        character.health = 15;
-                        characterselected = false;
-                        currentScene = 1;
-                    }
-                    else
-                    {
-                        Console.WriteLine("NO invalid input go it again");
-                    }
+                    character.job = "Raider";
+                    character.attack = 40;
+                    character.defense = 25;
+                    character.health = 20;
+
+                    currentScene++;
                 }
+                else if (input == 2)
+                {
+                    character.job = "Gunner";
+                    character.attack = 80;
+                    character.defense = 15;
+                    character.health = 15;
 
-                break;
-
+                    currentScene++;
+                }
+                else
+                {
+                    Console.WriteLine("NO invalid input go it again");
+                }
             }
         }
 
@@ -500,12 +494,21 @@ namespace BattleArena
             if (character.health < 0)
             {
                 Console.WriteLine("Disapointing");
-                matachEnd = character.name;
+                currentScene++;
             }
             else if (currentEnemy.health < 0)
             {
                 Console.WriteLine("You win this time");
-                matachEnd = currentEnemy.name;
+                Console.ReadKey();
+                Console.Clear();
+                currentEnemyIndex++;
+
+                if(currentEnemyIndex >= enemies.Length)
+                {
+                    currentScene = 3;
+                    
+                }
+                currentEnemy = enemies[currentEnemyIndex];
             }
 
             return matachEnd;
