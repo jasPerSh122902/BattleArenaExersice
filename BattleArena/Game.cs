@@ -344,46 +344,14 @@ namespace BattleArena
             Console.WriteLine("Defence " + Entity.defense);
 
         }
-        void DisplayStatsEnemy(Enemy enemy)
+        void DisplayStatsEnemy(Enemy Entity)
         {
-            Console.WriteLine("Name " + enemy.name);
-            Console.WriteLine("Health " + enemy.health);
-            Console.WriteLine("Damage " + enemy.attack);
-            Console.WriteLine("Defence " + enemy.defense);
-        }
-        /// <summary>
-        /// Calculates the amount of damage that will be done to a character
-        /// </summary>
-        /// <param name="attackPower">The attacking character's attack power</param>
-        /// <param name="defensePower">The defending character's defense power</param>
-        /// <returns>The amount of damage done to the defender</returns>
-        float CalculateDamage(float attack, float defense)
-        {
-            float damage = attack - defense;
-            if (damage <= 0)
-            {
-                damage = 0;
-            }
-
-            return damage;
+            Console.WriteLine("Name " + Entity.name);
+            Console.WriteLine("Health " + Entity.health);
+            Console.WriteLine("Damage " + Entity.attack);
+            Console.WriteLine("Defence " + Entity.defense);
         }
 
-        /// <summary>
-        /// Deals damage to a character based on an attacker's attack power
-        /// </summary>
-        /// <param name="attacker">The character that initiated the attack</param>
-        /// <param name="defender">The character that is being attacked</param>
-        /// <returns>The amount of damage done to the defender</returns>
-        public float PlayerAttack(ref Character attacker, ref Enemy defender)
-        {
-            return attacker.attack - defender.defense;
-
-        }
-
-        public float EnemyAtack(ref Enemy attacker, ref Character defender)
-        {
-            return attacker.attack - defender.defense;
-        }
         /// <summary>
         /// Simulates one turn in the current fight
         /// </summary>

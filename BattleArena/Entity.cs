@@ -70,5 +70,20 @@ namespace BattleArena
             _defensePower = defensePower;
 
         }
+
+        public float TakeDamage(float damageAmount)
+        {
+            float damageTaken = damageAmount - DefensePower;
+
+            if (damageTaken < 0)
+            {
+                damageTaken = 0;
+            }
+
+            _health -= damageTaken;
+
+            return damageTaken;
+        }
+
     }
 }
