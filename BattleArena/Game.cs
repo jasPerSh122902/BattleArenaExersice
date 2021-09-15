@@ -230,16 +230,16 @@ namespace BattleArena
                     UpdateCurrentEnemy();
                     Console.ReadKey(true);
                     break;
-                case 2:
-                    Battle2();
-                    UpdateCurrentEnemy();
-                    Console.ReadKey(true);
-                    break;
-                case 3:
-                    Battle3();
-                    UpdateCurrentEnemy();
-                    Console.ReadKey(true);
-                    break;
+                //case 2:
+                //    Battle2();
+                //    UpdateCurrentEnemy();
+                //    Console.ReadKey(true);
+                //    break;
+                //case 3:
+                //    Battle3();
+                //    UpdateCurrentEnemy();
+                //    Console.ReadKey(true);
+                //    break;
                 case 4:
                     DisplayRestartMenu();
                     break;
