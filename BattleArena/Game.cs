@@ -10,31 +10,17 @@ namespace BattleArena
     /// <summary>
     /// Represents any entity that exists in game
     /// </summary>
-    struct Enemy
-    {
-        public string name;
-        public float health;
-        public float attack;
-        public float defense;
-    }
-    struct Character
-    {
-        public string name;
-        public float health;
-        public float attack;
-        public float defense;
-        public string job;
-    }
+
 
     class Game
     {
 
         string playerName = "none";
         bool gameOver = false;
-        public int currentScene = 0;
+        public int CurrentScene = 0;
 
-        public int currentEnemyIndex = 0;
-        public Enemy currentEnemy;
+        public int CurrentEnemyIndex = 0;
+        public Enemy CurrentEnemy;
 
         string input = Console.ReadLine();
 
@@ -78,10 +64,10 @@ namespace BattleArena
 
         void ResetCurrentEnemies()
         {
-            currentEnemyIndex = 0;
+            CurrentEnemyIndex = 0;
 
-            currentEnemy = enemies[currentEnemyIndex];
-            currentEnemyIndex++;
+            CurrentEnemy = enemies[CurrentEnemyIndex];
+            CurrentEnemyIndex++;
         }
 
         /// <summary>
@@ -104,25 +90,14 @@ namespace BattleArena
         public void Start()
 
         {
-            Claud.name = "Claud";
-            Claud.attack = 15;
-            Claud.defense = 20;
-            Claud.health = 15;
 
-            Rob.name = "Rob";
-            Rob.attack = 15;
-            Rob.defense = 20;
-            Rob.health = 15;
+            Entity claud = new Entity("claud", 15, 15, 20);
 
-            Wompus.name = "Wompus";
-            Wompus.attack = 15;
-            Wompus.defense = 20;
-            Wompus.health = 15;
+            Entity rob = new Entity("Rob", 15, 15, 20);
 
-            Theo.name = "Theo";
-            Theo.attack = 15;
-            Theo.defense = 20;
-            Theo.health = 15;
+            Entity wompus = new Entity("Wompus", 15, 20, 15);
+
+            Entity theo = new Entity("Theo", 15, 20, 15);
 
             character.job = "Gunner";
             character.attack = 80;
@@ -157,11 +132,11 @@ namespace BattleArena
         /// </summary>
         bool TheAtemptAtEnd()
         {
-            bool theEnd = currentEnemyIndex >= enemies.Length;
+            bool theEnd = CurrentEnemyIndex >= enemies.Length;
 
             if (theEnd)
             {
-                currentScene = 2;
+                CurrentScene = 2;
             }
 
             return theEnd;
@@ -218,7 +193,7 @@ namespace BattleArena
         /// </summary>
         void WompustheFith()
         {
-            switch (currentScene)
+            switch (CurrentScene)
             {
                 case 0:
                     CharacterSelection();
@@ -259,7 +234,7 @@ namespace BattleArena
 
             if (choice == 1)
             {
-                currentScene = 1;
+                CurrentScene = 1;
             }
 
             else if (choice == 2)
@@ -276,7 +251,7 @@ namespace BattleArena
             if (choice == 1)
             {
                 //the looping of the game it self for the ending
-                currentScene = 0;
+                CurrentScene = 0;
             }
             else if (choice == 2)
             {
@@ -289,16 +264,16 @@ namespace BattleArena
 
 
         {
-            if (currentScene == 0)
+            if (CurrentScene == 0)
             {
                 DisplayMainMenu();
                 CharacterSelection();
             }
-            if (currentScene == 1)
+            if (CurrentScene == 1)
             {
                 Battle1();
             }
-            if (currentScene == 2)
+            if (CurrentScene == 2)
             {
                 DisplayRestartMenu();
             }
@@ -420,17 +395,17 @@ namespace BattleArena
             Console.WriteLine("1. attack ");
             Console.WriteLine("2. move out of the way");
 
-            while (character.health > 0 || currentEnemy.health > 0)
+            while (character.health > 0 || CurrentEnemy.health > 0)
             {
 
                 //Print 
                 DisplayStats(character);
                 //Print 
-                DisplayStatsEnemy(currentEnemy);
+                DisplayStatsEnemy(CurrentEnemy);
 
                 //
                 float damageTaken = PlayerAttack(ref character, ref Claud);
-                currentEnemy.health -= damageTaken;
+                CurrentEnemy.health -= damageTaken;
                 Console.WriteLine(Claud.name + "has taken " + damageTaken);
 
                 //
@@ -444,7 +419,7 @@ namespace BattleArena
 
                 CheckBattleResults();
                 UpdateCurrentEnemy();
-                currentScene = 2;
+                CurrentScene = 2;
                 break;
 
             }
@@ -464,17 +439,17 @@ namespace BattleArena
 
         void UpdateCurrentEnemy()
         {
-            if (currentEnemy.health <= 0)
+            if (CurrentEnemy.health <= 0)
             {
 
-                currentEnemyIndex++;
+                CurrentEnemyIndex++;
 
                 if (TheAtemptAtEnd())
                 {
                     return;
                 }
 
-                currentEnemy = enemies[currentEnemyIndex];
+                CurrentEnemy = enemies[CurrentEnemyIndex];
             }
         }
         /// <summary>
@@ -487,28 +462,28 @@ namespace BattleArena
             string matachEnd = "Next Enemy";
 
 
-            if (character.health <= 0 && currentEnemy.health <= 0)
+            if (character.health <= 0 && CurrentEnemy.health <= 0)
             {
                 matachEnd = "Draw";
             }
             if (character.health < 0)
             {
                 Console.WriteLine("Disapointing");
-                currentScene++;
+                CurrentScene++;
             }
-            else if (currentEnemy.health < 0)
+            else if (CurrentEnemy.health < 0)
             {
                 Console.WriteLine("You win this time");
                 Console.ReadKey();
                 Console.Clear();
-                currentEnemyIndex++;
+                CurrentEnemyIndex++;
 
-                if(currentEnemyIndex >= enemies.Length)
+                if(CurrentEnemyIndex >= enemies.Length)
                 {
-                    currentScene = 3;
+                    CurrentScene = 3;
                     
                 }
-                currentEnemy = enemies[currentEnemyIndex];
+                CurrentEnemy = enemies[CurrentEnemyIndex];
             }
 
             return matachEnd;
