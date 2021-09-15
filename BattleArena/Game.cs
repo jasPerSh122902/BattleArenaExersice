@@ -338,7 +338,7 @@ namespace BattleArena
                     character.defense = 25;
                     character.health = 20;
 
-                    currentScene++;
+
                 }
                 else if (input == 2)
                 {
@@ -347,7 +347,7 @@ namespace BattleArena
                     character.defense = 15;
                     character.health = 15;
 
-                    currentScene++;
+
                 }
                 else
                 {
