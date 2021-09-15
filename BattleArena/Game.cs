@@ -31,37 +31,6 @@ namespace BattleArena
         Enemy Theo;
         Enemy[] enemies;
 
-
-        Enemy EnemyIndex(int currentEnemyIndex)
-        {
-            Enemy enemy;
-            enemy.name = "None";
-            enemy.attack = 1;
-            enemy.defense = 1;
-            enemy.health = 1;
-
-
-            if (currentEnemyIndex == 0)
-            {
-                enemy = Claud;
-            }
-
-            else if (currentEnemyIndex == 1)
-            {
-                enemy = Rob;
-            }
-            else if (currentEnemyIndex == 2)
-            {
-                enemy = Wompus;
-            }
-            else if (currentEnemyIndex == 3)
-            {
-                enemy = Theo;
-            }
-
-            return enemy;
-        }
-
         void ResetCurrentEnemies()
         {
             CurrentEnemyIndex = 0;
@@ -116,6 +85,35 @@ namespace BattleArena
             ResetCurrentEnemies();
         }
 
+        Enemy EnemyIndex(int currentEnemyIndex)
+        {
+            Enemy enemy;
+            enemy.name = "None";
+            enemy.attack = 1;
+            enemy.defense = 1;
+            enemy.health = 1;
+
+
+            if (currentEnemyIndex == 0)
+            {
+                enemy = Claud;
+            }
+
+            else if (currentEnemyIndex == 1)
+            {
+                enemy = Rob;
+            }
+            else if (currentEnemyIndex == 2)
+            {
+                enemy = Wompus;
+            }
+            else if (currentEnemyIndex == 3)
+            {
+                enemy = Theo;
+            }
+
+            return enemy;
+        }
         /// <summary>
         /// This function is called every time the game loops.
         /// </summary>
@@ -299,7 +297,7 @@ namespace BattleArena
         /// </summary>
         public void CharacterSelection()
         {
-            Character character;
+            Character Entity;
             Console.WriteLine("You martch on to the areana with pride and look around");
             Console.WriteLine("You see familar faces but all look exited or grim for the upcoming event");
             Console.WriteLine("Attention all contendents this is a battle arena and so we shal watch you fight");
@@ -310,19 +308,19 @@ namespace BattleArena
             {
                 if (input == 1)
                 {
-                    character.job = "Raider";
-                    character.attack = 40;
-                    character.defense = 25;
-                    character.health = 20;
+                    Entity.job = "Raider";
+                    Entity.attack = 40;
+                    Entity.defense = 25;
+                    Entity.health = 20;
 
 
                 }
                 else if (input == 2)
                 {
-                    character.job = "Gunner";
-                    character.attack = 80;
-                    character.defense = 15;
-                    character.health = 15;
+                    Entity.job = "Gunner";
+                    Entity.attack = 80;
+                    Entity.defense = 15;
+                    Entity.health = 15;
 
 
                 }
@@ -336,14 +334,14 @@ namespace BattleArena
         /// <summary>
         /// Prints a characters stats to the console
         /// </summary>
-        /// <param name="character">The character that will have its stats shown</param>
-        void DisplayStats(Character character)
+        /// <param name="Entity">The character that will have its stats shown</param>
+        void DisplayStats(Character Entity)
         {
-            Console.WriteLine("Name " + character.name);
-            Console.WriteLine("Class" + character.job);
-            Console.WriteLine("Health " + character.health);
-            Console.WriteLine("Damage " + character.attack);
-            Console.WriteLine("Defence " + character.defense);
+            Console.WriteLine("Name " + Entity.name);
+            Console.WriteLine("Class" + Entity.job);
+            Console.WriteLine("Health " + Entity.health);
+            Console.WriteLine("Damage " + Entity.attack);
+            Console.WriteLine("Defence " + Entity.defense);
 
         }
         void DisplayStatsEnemy(Enemy enemy)
