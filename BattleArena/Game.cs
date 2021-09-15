@@ -53,13 +53,9 @@ namespace BattleArena
             End();
         }
 
-        /// <summary>
-        /// Function used to initialize any starting values by default
-        /// </summary>
-        public void Start()
 
+        public void InitilizeEnemy()
         {
-
             Entity claud = new Entity("claud", 15, 15, 20);
 
             Entity rob = new Entity("Rob", 15, 15, 20);
@@ -67,9 +63,12 @@ namespace BattleArena
             Entity wompus = new Entity("Wompus", 15, 20, 15);
 
             Entity theo = new Entity("Theo", 15, 20, 15);
-
-
-
+        }
+        /// <summary>
+        /// Function used to initialize any starting values by default
+        /// </summary>
+        public void Start()
+        {
             character.job = "Gunner";
             character.attack = 80;
             character.defense = 15;
@@ -121,6 +120,7 @@ namespace BattleArena
         {
 
             DisplayCurrentScene();
+            InitilizeEnemy();
         }
 
         void End()
@@ -452,7 +452,7 @@ namespace BattleArena
                 {
                     CurrentScene = 3;
                     
-                }
+                }            
                 CurrentEnemy = enemies[CurrentEnemyIndex];
             }
 

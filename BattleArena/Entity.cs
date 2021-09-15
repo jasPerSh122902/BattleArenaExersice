@@ -89,24 +89,6 @@ namespace BattleArena
         {
             return defender.TakeDamage(AttackPower);
         }
-        /// <summary>
-        /// Calculates the amount of damage that will be done to a character
-        /// </summary>
-        /// <param name="attackPower">The attacking character's attack power</param>
-        /// <param name="defensePower">The defending character's defense power</param>
-        /// <returns>The amount of damage done to the defender</returns>
-        float CalculateDamage(float attack, float defense)
-        {
-            float damage = attack - defense;
-            if (damage <= 0)
-            {
-                damage = 0;
-            }
-
-            return damage;
-        }
-
-
 
     }
 }
