@@ -85,5 +85,9 @@ namespace BattleArena
             return damageTaken;
         }
 
+        public float Attack(Entity defender)
+        {
+            return defender.TakeDamage(AttackPower);
+        }
     }
 }

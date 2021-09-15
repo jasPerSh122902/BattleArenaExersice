@@ -371,7 +371,9 @@ namespace BattleArena
                 //Print 
                 DisplayStatsEnemy(CurrentEnemy);
 
-                //
+                //look at lodises code for the _player.Attack and _currentEnemy.Attack to work
+                //but the curent attack dos work
+
                 float damageTaken = PlayerAttack(ref character, ref Claud);
                 CurrentEnemy.health -= damageTaken;
                 Console.WriteLine(Claud.name + "has taken " + damageTaken);
@@ -455,6 +457,24 @@ namespace BattleArena
             }
 
             return matachEnd;
+        }
+
+
+        /// <summary>
+        /// Deals damage to a character based on an attacker's attack power
+        /// </summary>
+        /// <param name="attacker">The character that initiated the attack</param>
+        /// <param name="defender">The character that is being attacked</param>
+        /// <returns>The amount of damage done to the defender</returns>
+        public float PlayerAttack(ref Character attacker, ref Enemy defender)
+        {
+            return attacker.attack - defender.defense;
+
+        }
+
+        public float EnemyAtack(ref Enemy attacker, ref Character defender)
+        {
+            return attacker.attack - defender.defense;
         }
 
     }
