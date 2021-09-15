@@ -25,6 +25,8 @@ namespace BattleArena
         string input = Console.ReadLine();
 
         Character character;
+        private Entity _player;
+        private Entity[] _enemies;
         Enemy Claud;
         Enemy Rob;
         Enemy Wompus;
@@ -63,6 +65,7 @@ namespace BattleArena
             Entity wompus = new Entity("Wompus", 15, 20, 15);
 
             Entity theo = new Entity("Theo", 15, 20, 15);
+
         }
         /// <summary>
         /// Function used to initialize any starting values by default
