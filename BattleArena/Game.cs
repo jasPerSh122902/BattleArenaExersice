@@ -99,15 +99,9 @@ namespace BattleArena
 
             Entity theo = new Entity("Theo", 15, 20, 15);
 
-            character.job = "Gunner";
-            character.attack = 80;
-            character.defense = 15;
-            character.health = 15;
+            Entity gunner = new Entity("Gunner", 15, 80, 15);
 
-            character.job = "Raider";
-            character.attack = 40;
-            character.defense = 25;
-            character.health = 20;
+            Entity raider = new Entity("Raider", 20, 40, 25);
 
             enemies = new Enemy[] { Rob, Wompus, Theo, Claud };
 
