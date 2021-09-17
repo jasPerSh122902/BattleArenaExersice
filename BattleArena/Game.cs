@@ -30,7 +30,7 @@ namespace BattleArena
         string input = Console.ReadLine();
 
         private Player _player;
-
+        private Player[];
 
         private Entity[] _enemies;
         Enemy Claud;
@@ -194,9 +194,18 @@ namespace BattleArena
                 input = Console.ReadLine();
 
                 //sees if player has typed a number of eny kind
-                if(int.TryParse(input, out inputRecieved))
+                if (int.TryParse(input, out inputRecieved))
                 {
 
+                    inputRecieved--;
+                    if (inputRecieved < 0 || inputRecieved >= options.Length)
+                    {
+                        //stes iputRevieved to be the default value
+                        inputRecieved = -1;
+                        //Diplay error message
+                        Console.WriteLine("invalid input");
+                        Console.ReadKey(true);
+                    }
                 }
             }
 
