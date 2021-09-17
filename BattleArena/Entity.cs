@@ -19,6 +19,7 @@ namespace BattleArena
         public float attack;
         public float defense;
         public string job;
+
     }
     class Entity
     {
