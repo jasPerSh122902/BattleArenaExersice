@@ -20,18 +20,18 @@ namespace BattleArena
         public int CurrentScene = 0;
 
         public int CurrentEnemyIndex = 0;
-        public Entity CurrentEnemy;
+        public Enemy CurrentEnemy;
 
         string input = Console.ReadLine();
 
-        Entity character;
+        Character character;
         private Entity _player;
         private Entity[] _enemies;
-        Entity Claud;
-        Entity Rob;
-        Entity Wompus;
-        Entity Theo;
-        Entity[] enemies;
+        Enemy Claud;
+        Enemy Rob;
+        Enemy Wompus;
+        Enemy Theo;
+        Enemy[] enemies;
 
         void ResetCurrentEnemies()
         {
@@ -72,19 +72,29 @@ namespace BattleArena
         /// </summary>
         public void Start()
         {
-            Entity player = new Entity("Gunner", 15, 80, 15);
+            character.job = "Gunner";
+            character.attack = 80;
+            character.defense = 15;
+            character.health = 15;
 
-            Entity player = new Entity("Raider", 20, 40, 20);
+            character.job = "Raider";
+            character.attack = 40;
+            character.defense = 25;
+            character.health = 20;
 
-
-            enemies = new Entity[] { Rob, Wompus, Theo, Claud };
+            enemies = new Enemy[] { Rob, Wompus, Theo, Claud };
 
             ResetCurrentEnemies();
         }
 
-        Entity EnemyIndex(int currentEnemyIndex)
+        Enemy EnemyIndex(int currentEnemyIndex)
         {
-            Entity enemy = new Entity("enemy", 15, 15, 20);
+            Enemy enemy;
+            enemy.name = "None";
+            enemy.attack = 1;
+            enemy.defense = 1;
+            enemy.health = 1;
+
 
             if (currentEnemyIndex == 0)
             {
@@ -290,7 +300,7 @@ namespace BattleArena
         /// </summary>
         public void CharacterSelection()
         {
-            Entity;
+            Character Entity;
             Console.WriteLine("You martch on to the areana with pride and look around");
             Console.WriteLine("You see familar faces but all look exited or grim for the upcoming event");
             Console.WriteLine("Attention all contendents this is a battle arena and so we shal watch you fight");
@@ -302,7 +312,7 @@ namespace BattleArena
                 if (input == 1)
                 {
                     Entity.job = "Raider";
-                    Entity.AttackPower = 40;
+                    Entity.attack = 40;
                     Entity.defense = 25;
                     Entity.health = 20;
 
@@ -328,16 +338,22 @@ namespace BattleArena
         /// Prints a characters stats to the console
         /// </summary>
         /// <param name="Entity">The character that will have its stats shown</param>
-        void DisplayStats(Entity)
+        void DisplayStats(Character Entity)
         {
-            Console.WriteLine("Name " + Entity._name);
+            Console.WriteLine("Name " + Entity.name);
             Console.WriteLine("Class" + Entity.job);
             Console.WriteLine("Health " + Entity.health);
             Console.WriteLine("Damage " + Entity.attack);
             Console.WriteLine("Defence " + Entity.defense);
 
         }
-
+        void DisplayStatsEnemy(Enemy Entity)
+        {
+            Console.WriteLine("Name " + Entity.name);
+            Console.WriteLine("Health " + Entity.health);
+            Console.WriteLine("Damage " + Entity.attack);
+            Console.WriteLine("Defence " + Entity.defense);
+        }
 
         /// <summary>
         /// Simulates one turn in the current fight
@@ -385,7 +401,7 @@ namespace BattleArena
 
         public void Battle2()
         {
-            //possibe battles to ha
+
         }
 
         public void Battle3()
@@ -435,11 +451,11 @@ namespace BattleArena
                 Console.Clear();
                 CurrentEnemyIndex++;
 
-                if(CurrentEnemyIndex >= enemies.Length)
+                if (CurrentEnemyIndex >= enemies.Length)
                 {
                     CurrentScene = 3;
-                    
-                }            
+
+                }
                 CurrentEnemy = enemies[CurrentEnemyIndex];
             }
 
