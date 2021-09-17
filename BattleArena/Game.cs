@@ -25,7 +25,7 @@ namespace BattleArena
         public int CurrentScene = 0;
 
         public int CurrentEnemyIndex = 0;
-        public Enemy CurrentEnemy;
+        public Enemy _currentEnemy;
 
         string input = Console.ReadLine();
 
@@ -47,7 +47,7 @@ namespace BattleArena
         {
             CurrentEnemyIndex = 0;
 
-            CurrentEnemy = enemies[CurrentEnemyIndex];
+            _currentEnemy = enemies[CurrentEnemyIndex];
             CurrentEnemyIndex++;
         }
 
@@ -172,43 +172,34 @@ namespace BattleArena
         /// <param name="option1">The first option the player can choose</param>
         /// <param name="option2">The second option the player can choose</param>
         /// <returns></returns>
-        int GetInput(string description, string option1, string option2)
+        int GetInput(string description, params string[] options)
         {
+
             string input = "";
-            int inputReceived = 0;
+            int inputRecieved = -1;
 
-            while (inputReceived != 1 && inputReceived != 2)
-            {//Print options
+            while (inputRecieved == -1)
+            {
+                //Print options that are there
                 Console.WriteLine(description);
-                Console.WriteLine("1. " + option1);
-                Console.WriteLine("2. " + option2);
-                Console.Write("> ");
 
-                //Get input from player
+                for (int i = 0; i < options.Length; i++)
+                {
+                    Console.WriteLine((i + 1) + ". " + options[i]);
+                }
+
+                Console.WriteLine("> ");
+
+                //gets the input form player
                 input = Console.ReadLine();
 
-                //If player selected the first option...
-                if (input == "1" || input == option1)
+                //sees if player has typed a number of eny kind
+                if(int.TryParse(input, out inputRecieved))
                 {
-                    //Set input received to be the first option
-                    inputReceived = 1;
+
                 }
-                //Otherwise if the player selected the second option...
-                else if (input == "2" || input == option2)
-                {
-                    //Set input received to be the second option
-                    inputReceived = 2;
-                }
-                //If neither are true...
-                else
-                {
-                    //...display error message
-                    Console.WriteLine("Invalid Input");
-                    Console.ReadKey();
-                }
-                Console.Clear();
             }
-            return inputReceived;
+
         }
 
         /// <summary>
@@ -386,26 +377,33 @@ namespace BattleArena
             Console.WriteLine("1. attack ");
             Console.WriteLine("2. move out of the way");
 
-            while (character.health > 0 || CurrentEnemy.health > 0)
-            {
-
                 //Print 
                 DisplayStats(_player);
                 //Print 
-                DisplayStatsEnemy(CurrentEnemy);
+                DisplayStatsEnemy(_currentEnemy);
 
                 //look at lodises code for the _player.Attack and _currentEnemy.Attack to work
                 //but the curent attack dos work
+                //need to make a if statement for damage
+                int choice = GetInput("A" + _currentEnemy.Name + "they appear", "Attack", "Equip Item");
 
-                float damageTaken = PlayerAttack(ref _player, ref Claud);
-                CurrentEnemy.health -= damageTaken;
-                Console.WriteLine(Claud.name + "has taken " + damageTaken);
 
-                //
-                damageTaken = EnemyAtack(ref Claud, ref _player);
-                character.health -= damageTaken;
-                Console.WriteLine(playerName + "has taken " + damageTaken);
+                if(choice == 1)
+                {
+                    damageDealt = _player.Attack(_currentEnemy);
+                }
+                else if (choice == 2)
+                {
+                    Console.WriteLine("");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
 
+                damageDealt = _currentEnemy.Attack(_player);
+            Console.WriteLine("The" + _currentEnemy.Name + "dealt" + damageDealt, "damage!");
+
+                Console.ReadKey(true);
+                Console.Clear();
 
                 Console.ReadKey();
                 Console.Clear();
@@ -413,9 +411,8 @@ namespace BattleArena
                 CheckBattleResults();
                 UpdateCurrentEnemy();
                 CurrentScene = 2;
-                break;
 
-            }
+            
 
         }
 
@@ -432,7 +429,7 @@ namespace BattleArena
 
         void UpdateCurrentEnemy()
         {
-            if (CurrentEnemy.health <= 0)
+            if (_currentEnemy.health <= 0)
             {
 
                 CurrentEnemyIndex++;
@@ -442,7 +439,7 @@ namespace BattleArena
                     return;
                 }
 
-                CurrentEnemy = enemies[CurrentEnemyIndex];
+                _currentEnemy = enemies[CurrentEnemyIndex];
             }
         }
         /// <summary>
@@ -455,16 +452,16 @@ namespace BattleArena
             string matachEnd = "Next Enemy";
 
 
-            if (character.health <= 0 && CurrentEnemy.health <= 0)
+            if (_player.Health <= 0 && _currentEnemy.health <= 0)
             {
                 matachEnd = "Draw";
             }
-            if (character.health < 0)
+            if (_player.Health < 0)
             {
                 Console.WriteLine("Disapointing");
                 CurrentScene++;
             }
-            else if (CurrentEnemy.health < 0)
+            else if (_currentEnemy.health < 0)
             {
                 Console.WriteLine("You win this time");
                 Console.ReadKey();
@@ -476,7 +473,7 @@ namespace BattleArena
                     CurrentScene = 3;
 
                 }
-                CurrentEnemy = enemies[CurrentEnemyIndex];
+                _currentEnemy = enemies[CurrentEnemyIndex];
             }
 
             return matachEnd;

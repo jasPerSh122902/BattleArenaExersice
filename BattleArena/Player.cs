@@ -40,5 +40,23 @@ namespace BattleArena
 
             return true;
         }
+
+        /// <summary>
+        /// allow the player to know if they have a current item by...
+        /// </summary>
+        /// <returns></returns>
+        public bool TryRemoveCurrentItem()
+        {
+            //looking for the current item name then if there is "Nothing" then false do it again..
+            if (CurrentItem.Name == "Nothing")
+                return false;
+
+            //other wise look for current item then set it so Nothing...
+            _currentItem = new Item();
+            _currentItem.Name = "Nothing";
+
+            //then return false
+            return true;
+        }
     }
 }
