@@ -377,7 +377,7 @@ namespace BattleArena
                 //look at lodises code for the _player.Attack and _currentEnemy.Attack to work
                 //but the curent attack dos work
 
-                float damageTaken = PlayerAttack(ref Entity, ref Claud);
+                float damageTaken = PlayerAttack(ref character, ref Claud);
                 CurrentEnemy.health -= damageTaken;
                 Console.WriteLine(Claud.name + "has taken " + damageTaken);
 
@@ -469,13 +469,13 @@ namespace BattleArena
         /// <param name="attacker">The character that initiated the attack</param>
         /// <param name="defender">The character that is being attacked</param>
         /// <returns>The amount of damage done to the defender</returns>
-        public float Attack(ref Entity attacker, ref Entity defender)
+        public float PlayerAttack(ref Character attacker, ref Enemy defender)
         {
             return attacker.attack - defender.defense;
 
         }
 
-        public float Atack(ref Entity attacker, ref Entity defender)
+        public float EnemyAtack(ref Enemy attacker, ref Character defender)
         {
             return attacker.attack - defender.defense;
         }
