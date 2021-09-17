@@ -5,13 +5,18 @@ using System.Text;
 //the is the commint  for update
 //this is a test
 //the is the commint  for update
+
 namespace BattleArena
 {
     /// <summary>
     /// Represents any entity that exists in game
     /// </summary>
 
-
+    public struct Item
+    {
+        public string Name;
+        public float StatBoost;
+    }
     class Game
     {
 
@@ -24,14 +29,19 @@ namespace BattleArena
 
         string input = Console.ReadLine();
 
-        Character character;
-        private Entity _player;
+        private Player _player;
+
+
         private Entity[] _enemies;
         Enemy Claud;
         Enemy Rob;
         Enemy Wompus;
         Enemy Theo;
         Enemy[] enemies;
+
+
+        private Item[] _gunnerItems;
+        private Item[] _raiderItems;
 
         void ResetCurrentEnemies()
         {
@@ -55,6 +65,20 @@ namespace BattleArena
             End();
         }
 
+        public void InitilizeItems()
+        {
+            //Gunner items
+            Item bigGun = new Item { Name = "Big Gun", StatBoost = 5 };
+            Item bigShield = new Item { Name = "Big Shield", StatBoost = 15 };
+
+            //Raider Items
+            Item axe = new Item { Name = "Axe", StatBoost = 18 };
+            Item forceShied = new Item { Name = "Force Shield", StatBoost = 3 };
+
+            //Initialize arrays
+            _gunnerItems = new Item[] { bigGun, bigShield };
+            _raiderItems = new Item[] { axe, forceShied };
+        }
 
         public void InitilizeEnemy()
         {
@@ -72,15 +96,11 @@ namespace BattleArena
         /// </summary>
         public void Start()
         {
-            character.job = "Gunner";
-            character.attack = 80;
-            character.defense = 15;
-            character.health = 15;
+            _player = new Player(_player, 50, 80, 25, _gunnerItems);
 
-            character.job = "Raider";
-            character.attack = 40;
-            character.defense = 25;
-            character.health = 20;
+
+            _player = new Player(_player, 20, 45, 25, _raiderItems,);
+
 
             enemies = new Enemy[] { Rob, Wompus, Theo, Claud };
 
@@ -370,19 +390,19 @@ namespace BattleArena
             {
 
                 //Print 
-                DisplayStats(character);
+                DisplayStats(_player);
                 //Print 
                 DisplayStatsEnemy(CurrentEnemy);
 
                 //look at lodises code for the _player.Attack and _currentEnemy.Attack to work
                 //but the curent attack dos work
 
-                float damageTaken = PlayerAttack(ref character, ref Claud);
+                float damageTaken = PlayerAttack(ref _player, ref Claud);
                 CurrentEnemy.health -= damageTaken;
                 Console.WriteLine(Claud.name + "has taken " + damageTaken);
 
                 //
-                damageTaken = EnemyAtack(ref Claud, ref character);
+                damageTaken = EnemyAtack(ref Claud, ref _player);
                 character.health -= damageTaken;
                 Console.WriteLine(playerName + "has taken " + damageTaken);
 
