@@ -5,22 +5,7 @@ using System.Text;
 namespace BattleArena
 {
 
-    struct Enemy
-    {
-        public string name;
-        public float health;
-        public float attack;
-        public float defense;
-    }
-    struct Character
-    {
-        public string name;
-        public float health;
-        public float attack;
-        public float defense;
-        public string job;
-
-    }
+ 
     class Entity
     {
 
