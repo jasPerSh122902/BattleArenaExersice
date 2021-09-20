@@ -134,6 +134,14 @@ namespace BattleArena
 
             if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
                 return false;
+
+            if (!_player.Load(reader))
+                return false;
+
+            if (!_currentEnemy.Load(reader))
+                return false;
+
+            return true;
         }
 
         /// <summary>
