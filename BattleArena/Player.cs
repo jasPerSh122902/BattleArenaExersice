@@ -29,8 +29,6 @@ namespace BattleArena
             }
         }
 
-
-  
         public Item CurrentItem
         {
 

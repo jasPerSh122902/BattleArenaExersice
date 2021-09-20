@@ -297,7 +297,14 @@ namespace BattleArena
             }
             else if (choice == 2)
             {
+                if (!_player.TryRemoveCurrentItem())
+                    Console.WriteLine("You dont know enthing equipped good luck. ");
+                else
+                    Console.WriteLine("you plced the item on the ground. ");
 
+                Console.ReadKey(true);
+                Console.Clear();
+                return;
             }
 
             damageDealt = _currentEnemy.Attack(_player);
