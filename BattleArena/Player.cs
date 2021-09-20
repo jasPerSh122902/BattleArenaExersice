@@ -39,6 +39,12 @@ namespace BattleArena
             }
         }
 
+        public Player()
+        {
+            _items = new Item[0];
+            _currentItem.Name = "Nothing";
+        }
+
         public Player(string name, float health, float attackPower, float defensePower, Item[] items) : base(name, health, attackPower, defensePower)
         {
             _items = items;

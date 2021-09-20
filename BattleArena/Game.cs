@@ -127,19 +127,33 @@ namespace BattleArena
 
         public bool Load()
         {
+            //figures out if file exists...
             if (!File.Exists("SaveData.txt"))
+                //returns false
                 return false;
 
+            //creas a new reader to read from the text file
             StreamReader reader = new StreamReader("SaveData.txt");
 
+            //if the first line can't be converted into an integer...
             if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
+                //...returns false
                 return false;
+
+            //created a new instance and tryload the player
+            _player = new Player();
 
             if (!_player.Load(reader))
                 return false;
 
+            //created a new instance and try to load the enemy
+            _currentEnemy = new Entity();
+
             if (!_currentEnemy.Load(reader))
                 return false;
+
+            //Updated the array to match the current enemey stats
+            _enemies[_currentEnemyIndex] = _currentEnemy;
 
             return true;
         }
