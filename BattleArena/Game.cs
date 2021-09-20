@@ -281,8 +281,8 @@ namespace BattleArena
             }
             else if (choice == 1)
             {
-                Console.WriteLine("You Equited ");
-                Console.ReadKey();
+                DisplayEquipItemMenu();
+                Console.ReadKey(true);
                 Console.Clear();
                 return;
             }
