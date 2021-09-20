@@ -111,10 +111,17 @@ namespace BattleArena
 
         public void Save()
         {
+            //create a new stream below
             StreamWriter writer = new StreamWriter("SaveData.txt");
+
+            //save enemies...
+            writer.WriteLine(_currentEnemyIndex);
+
+            //saves player...
             _player.Save(writer);
             _currentEnemy.Save(writer);
 
+            //closes the writer when done saving.
             writer.Close();
         }
 
