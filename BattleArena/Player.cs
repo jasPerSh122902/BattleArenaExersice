@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace BattleArena
 {
@@ -8,7 +9,7 @@ namespace BattleArena
     {
         private Item[] _items;
         private Item _currentItem;
-
+        private int _currentItemIndex;
 
         public override float DefensePower
         {
@@ -55,11 +56,14 @@ namespace BattleArena
             if (Index >= _items.Length || Index < 0)
                 return false;
 
+
+            _currentItemIndex = Index;
             //then sets item
-            _currentItem = _items[Index];
+            _currentItem = _items[_currentItemIndex];
 
             return true;
         }
+
 
         /// <summary>
         /// allow the player to know if they have a current item by...
@@ -75,6 +79,7 @@ namespace BattleArena
             _currentItem = new Item();
             _currentItem.Name = "Nothing";
 
+            _currentItemIndex = -1;
             //then return
             return true;
         }
@@ -90,6 +95,12 @@ namespace BattleArena
             }
 
             return itemNames;
+        }
+
+        public override void Save(StreamWriter writer)
+        {
+            base.Save(writer);
+            writer.WriteLine(_currentItemIndex);
         }
     }
 }

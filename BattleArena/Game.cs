@@ -109,6 +109,15 @@ namespace BattleArena
             Console.ReadKey(true);
         }
 
+        public void Save()
+        {
+            StreamWriter writer = new StreamWriter("SaveData.txt");
+            _player.Save(writer);
+            _currentEnemy.Save(writer);
+
+            writer.Close();
+        }
+
         /// <summary>
         /// Gets an input from the player based on some given decision
         /// </summary>
