@@ -58,5 +58,17 @@ namespace BattleArena
             //then return
             return true;
         }
+
+        public  string[] GetItemNames()
+        {
+            string[] itemNames = new string[_items.Length];
+
+            for (int i = 0; i < _items.Length; i++)
+            {
+                itemNames[i] = _items[i].Name;
+            }
+
+            return itemNames;
+        }
     }
 }

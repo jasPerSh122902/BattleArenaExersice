@@ -138,6 +138,17 @@ namespace BattleArena
                         Console.ReadKey(true);
                     }
                 }
+                //a error if the player put a word
+                else
+                {
+                    //set the inputrecieved back to -1 to restart loop
+                    inputReceived = -1;
+                    Console.WriteLine("Invalid input");
+                    Console.ReadKey(true);
+
+                }
+
+                Console.Clear();
             }
             return inputReceived;
         }
