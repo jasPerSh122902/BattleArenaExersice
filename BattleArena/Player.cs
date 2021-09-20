@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,7 +18,7 @@ namespace BattleArena
             }
         }
 
-        public Player(string name, float health, float atackPower, float defensePower, Item[] items, float attackPower) : base(name, health, attackPower, defensePower)
+        public Player(string name, float health, float attackPower, float defensePower, Item[] items) : base(name, health, attackPower, defensePower)
         {
             _items = items;
             _currentItem.Name = "Nothing";
@@ -55,7 +55,7 @@ namespace BattleArena
             _currentItem = new Item();
             _currentItem.Name = "Nothing";
 
-            //then return false
+            //then return
             return true;
         }
     }
