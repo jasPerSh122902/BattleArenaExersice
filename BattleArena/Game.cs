@@ -15,6 +15,17 @@ namespace BattleArena
 
     }
 
+
+    public enum Scene
+    {
+        STARTMENU,
+        NAMECREATION,
+        CHARACTORSELECTION,
+        BATTLE,
+        RESTARTMENU
+
+    }
+
     public struct Item
     {
         public string Name;
@@ -27,7 +38,7 @@ namespace BattleArena
     {
 
         private bool _gameOver;
-        private int _currentScene = 1;
+        private Scene _currentScene;
         private Player _player;
         private Entity[] _enemies;
         private int _currentEnemyIndex;
@@ -57,7 +68,7 @@ namespace BattleArena
         public void Start()
         {
             _gameOver = false;
-            _currentScene = 1;
+            _currentScene = Scene.STARTMENU;
             InitializeEnemies();
             InitializeItems();
         }
@@ -111,6 +122,8 @@ namespace BattleArena
 
         public void Save()
         {
+            
+
             //create a new stream below
             StreamWriter writer = new StreamWriter("SaveData.txt");
 
@@ -127,10 +140,14 @@ namespace BattleArena
 
         public bool Load()
         {
+            bool loadSuccessful = true;
+
+
+
             //figures out if file exists...
             if (!File.Exists("SaveData.txt"))
                 //returns false
-                return false;
+                loadSuccessful = false;
 
             //creas a new reader to read from the text file
             StreamReader reader = new StreamReader("SaveData.txt");
@@ -138,24 +155,39 @@ namespace BattleArena
             //if the first line can't be converted into an integer...
             if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
                 //...returns false
-                return false;
+                loadSuccessful = false;
 
-            //created a new instance and tryload the player
-            _player = new Player();
+            string job = reader.ReadLine();
+
+          
+
+            if (job == "gunner")
+                _player = new Player(_gunnerItems);
+            else if (job == "raider")
+                _player = new Player(_raiderItems);
+            else
+                loadSuccessful = false;
+
+            _player.Job = job;
 
             if (!_player.Load(reader))
-                return false;
+                loadSuccessful = false;
 
             //created a new instance and try to load the enemy
             _currentEnemy = new Entity();
 
             if (!_currentEnemy.Load(reader))
-                return false;
+                loadSuccessful = false;
 
             //Updated the array to match the current enemey stats
             _enemies[_currentEnemyIndex] = _currentEnemy;
 
-            return true;
+            _currentScene = Scene.BATTLE;
+
+            //make the reader cloase when finished
+            reader.Close();
+
+            return loadSuccessful;
         }
 
         /// <summary>
@@ -218,20 +250,24 @@ namespace BattleArena
         void DisplayCurrentScene()
         {
 
-            if (_currentScene == 1)
+            switch(_currentScene)
             {
-                GetPlayerName();
-                CharacterSelection();
-            }
-            if (_currentScene == 2)
-            {
-                Battle();
-                CheckBattleResults();
-            }
-
-            if (_currentScene == 3)
-            {
-                DisplayMainMenu();
+                case Scene.STARTMENU:
+                    DisplayStartMenu();
+                    break;
+                case Scene.NAMECREATION:
+                    GetPlayerName();
+                    break;
+                case Scene.CHARACTORSELECTION:
+                    CharacterSelection();
+                    break;
+                case Scene.BATTLE:
+                    Battle();
+                    CheckBattleResults();
+                    break;
+                case Scene.RESTARTMENU:
+                    DisplayMainMenu();
+                    break;
             }
 
         }
@@ -245,12 +281,39 @@ namespace BattleArena
 
             if (choice == 0)
             {
-                _currentScene = 1;
+                _currentScene = Scene.STARTMENU;
                 InitializeEnemies();
             }
             else if (choice == 1)
             {
                 _gameOver = true;
+            }
+        }
+
+        public void DisplayStartMenu()
+        {
+            int choice = GetInput("Welcome to the Areana!", "Start New Game", "Load Game");
+
+            if (choice == 0)
+            {
+                _currentScene = Scene.NAMECREATION;
+            }
+            else if (choice == 1)
+            {
+                if (Load())
+                {
+                    Console.WriteLine("Load Successful!");
+                    Console.ReadKey(true);
+                    Console.Clear();
+                    _currentScene = Scene.BATTLE;
+                }
+                else
+                {
+                    Console.WriteLine("Load failed.");
+                    Console.ReadKey(true);
+                    Console.Clear();
+                }
+                    
             }
         }
 
@@ -285,13 +348,13 @@ namespace BattleArena
 
             if (choice == 0)
             {
-                _player = new Player(_playerName, 100, 225, 15, _gunnerItems);
-                _currentScene = 2;
+                _player = new Player(_playerName, 100, 225, 15, _gunnerItems, "gunner");
+                _currentScene = Scene.BATTLE;
             }
             else if (choice == 1)
             {
-                _player = new Player(_playerName, 125, 50, 29, _raiderItems);
-                _currentScene = 2;
+                _player = new Player(_playerName, 125, 50, 29, _raiderItems, "raider");
+                _currentScene = Scene.BATTLE;
             }
         }
 
@@ -383,7 +446,7 @@ namespace BattleArena
                 Console.WriteLine("You were slain...");
                 Console.ReadKey(true);
                 Console.Clear();
-                _currentScene = 3;
+                _currentScene = Scene.RESTARTMENU;
             }
             else if (_currentEnemy.Health <= 0)
             {
@@ -394,7 +457,7 @@ namespace BattleArena
 
                 if (_currentEnemyIndex >= _enemies.Length)
                 {
-                    _currentScene = 3;
+                    _currentScene = Scene.RESTARTMENU;
                     Console.WriteLine("You've slain all the enemies! You are vitorious but there will be more.");
                     return;
                 }
