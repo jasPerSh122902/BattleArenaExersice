@@ -18,7 +18,7 @@ namespace BattleArena
     {
         public string Name;
         public float StatBoost;
-        public int ItemType;
+        public ItemType Type;
     }
 
 
@@ -64,12 +64,12 @@ namespace BattleArena
         public void InitializeItems()
         {
             //Gunner items
-            Item bigGun = new Item { Name = "Big Gud", StatBoost = 5 , ItemType = 1};
-            Item bigShield = new Item { Name = "Big Shield", StatBoost = 15 , ItemType = 0};
+            Item bigGun = new Item { Name = "Big Gud", StatBoost = 5, Type = ItemType.ATTACK };
+            Item bigShield = new Item { Name = "Big Shield", StatBoost = 15 , Type = ItemType.DEFENSE };
 
             //Raider items
-            Item bigAxe = new Item { Name= "Big Axe ", StatBoost = 15, ItemType = 1};
-            Item forceShield = new Item { Name = "Force Shield ", StatBoost = 15, ItemType = 0 };
+            Item bigAxe = new Item { Name= "Big Axe ", StatBoost = 15, Type = ItemType.ATTACK };
+            Item forceShield = new Item { Name = "Force Shield ", StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Initialize arrays
             _gunnerItems = new Item[] { bigGun, bigShield };

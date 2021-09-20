@@ -14,7 +14,7 @@ namespace BattleArena
         {
             get
             {
-                if (_currentItem.ItemType == 0)
+                if (_currentItem.Type == ItemType.DEFENSE)
                     return base.DefensePower + CurrentItem.StatBoost;
                 return base.DefensePower;
             }
@@ -23,12 +23,14 @@ namespace BattleArena
         {
             get
             {
-                if (_currentItem.ItemType == 1)
+                if (_currentItem.Type == ItemType.ATTACK)
                     return base.AttackPower + CurrentItem.StatBoost;
                 return base.AttackPower;
             }
         }
 
+
+  
         public Item CurrentItem
         {
 
