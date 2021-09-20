@@ -6,6 +6,14 @@ using System.Text;
 namespace BattleArena
 {
 
+    public enum ItemType
+    {
+        DEFENSE,
+        ATTACK,
+        NONE
+
+    }
+
     public struct Item
     {
         public string Name;
