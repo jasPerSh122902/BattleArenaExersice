@@ -249,6 +249,19 @@ namespace BattleArena
             Console.WriteLine();
         }
 
+        public void DisplayEquipItemMenu()
+        {
+            //gets the item that player wants
+            int choice = GetInput("What item do you want. ", _player.GetItemNames());
+
+            //equips item at given index
+            if (!_player.TryEquipItem(choice))
+                //error message
+                Console.WriteLine("You conldn't find that item :[");
+
+            //prints feedback
+            Console.WriteLine("You equipped " + _player.CurrentItem.Name + ";]");
+        }
         /// <summary>
         /// Simulates one turn in the current monster fight
         /// </summary>
@@ -259,7 +272,7 @@ namespace BattleArena
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
 
-            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of reader to attack do you", "Attack", "Equip item");
+            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of reader to attack do you", "Attack", "Equip item", "Remove current item");
 
             if (choice == 0)
             {
@@ -268,10 +281,14 @@ namespace BattleArena
             }
             else if (choice == 1)
             {
-                Console.WriteLine("You dodged the enemy's attack!");
+                Console.WriteLine("You Equited ");
                 Console.ReadKey();
                 Console.Clear();
                 return;
+            }
+            else if (choice == 2)
+            {
+
             }
 
             damageDealt = _currentEnemy.Attack(_player);
