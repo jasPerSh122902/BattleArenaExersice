@@ -125,6 +125,17 @@ namespace BattleArena
             writer.Close();
         }
 
+        public bool Load()
+        {
+            if (!File.Exists("SaveData.txt"))
+                return false;
+
+            StreamReader reader = new StreamReader("SaveData.txt");
+
+            if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
+                return false;
+        }
+
         /// <summary>
         /// Gets an input from the player based on some given decision
         /// </summary>

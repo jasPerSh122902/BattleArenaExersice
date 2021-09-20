@@ -102,5 +102,19 @@ namespace BattleArena
             base.Save(writer);
             writer.WriteLine(_currentItemIndex);
         }
+
+        public override bool Load(StreamReader reader)
+        {
+            //if the base loading function dos not load return false..
+            if (base.Load(reader))
+                return false;
+
+            //if the loading function works then gos to CurrentItemIndex if that dos not load return false...
+            if(!int.TryParse(reader.ReadLine(), out _currentItemIndex))
+                return false;
+            //then return the Item Index wether the top two were successful.
+            //This one returns wether the item was equipped or not.
+           return TryEquipItem(_currentItemIndex);
+        }
     }
 }
