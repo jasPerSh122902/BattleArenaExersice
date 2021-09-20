@@ -17,7 +17,7 @@ namespace BattleArena
     {
 
         private bool _gameOver;
-        private int _currentScene;
+        private int _currentScene = 1;
         private Player _player;
         private Entity[] _enemies;
         private int _currentEnemyIndex;
@@ -47,7 +47,7 @@ namespace BattleArena
         public void Start()
         {
             _gameOver = false;
-            _currentScene = 0;
+            _currentScene = 1;
             InitializeEnemies();
             InitializeItems();
         }
@@ -71,11 +71,11 @@ namespace BattleArena
         {
             _currentEnemyIndex = 0;
 
-            Entity claud = new Entity("Claud", 25, 15, 15);
+            Entity claud = new Entity("Claud", 70, 25, 35);
 
-            Entity chad = new Entity("Chad", 80, 2, 15);
+            Entity chad = new Entity("Chad", 80, 32, 25);
 
-            Entity wompus = new Entity("Wompus", 225, 25, 25);
+            Entity wompus = new Entity("Wompus", 225, 30, 25);
 
             _enemies = new Entity[] { claud, chad, wompus };
 
@@ -147,22 +147,21 @@ namespace BattleArena
         /// </summary>
         void DisplayCurrentScene()
         {
-            switch (_currentScene)
-            {
-                case 0:
-                    GetPlayerName();
-                    break;
-                case 1:
-                    CharacterSelection();
-                    break;
-                case 2:
-                    Battle();
-                    CheckBattleResults();
-                    break;
-                case 3:
-                    DisplayMainMenu();
-                    break;
 
+            if (_currentScene == 1)
+            {
+                GetPlayerName();
+                CharacterSelection();
+            }
+            if (_currentScene == 2)
+            {
+                Battle();
+                CheckBattleResults();
+            }
+
+            if (_currentScene == 3)
+            {
+                DisplayMainMenu();
             }
 
         }
@@ -174,12 +173,12 @@ namespace BattleArena
         {
             int choice = GetInput("Play Again?", "Yes", "No");
 
-            if (choice == 1)
+            if (choice == 0)
             {
-                _currentScene = 0;
+                _currentScene = 1;
                 InitializeEnemies();
             }
-            else if (choice == 2)
+            else if (choice == 1)
             {
                 _gameOver = true;
             }
@@ -199,10 +198,11 @@ namespace BattleArena
 
             int choice = GetInput("You've entered " + _playerName + ". Are you sure you want to keep this name?", "Yes", "No");
 
-            if (choice == 1)
+            if (choice == 0)
             {
                 _currentScene++;
             }
+
         }
 
         /// <summary>
@@ -211,17 +211,17 @@ namespace BattleArena
         /// </summary>
         public void CharacterSelection()
         {
-            int choice = GetInput("Hi plz input your name ",_playerName + "select you fighter", "Gunner", "Raider");
+            int choice = GetInput("select you fighter", "Gunner", "Raider");
 
-            if (choice == 1)
+            if (choice == 0)
             {
-                _player = new Player(_playerName, 50, 25, 80, _gunnerItems);
-                _currentScene++;
+                _player = new Player(_playerName, 100, 225, 15, _gunnerItems);
+                _currentScene = 2;
             }
-            else if (choice == 2)
+            else if (choice == 1)
             {
-                _player = new Player(_playerName, 75, 15, 10, _raiderItems);
-                _currentScene++;
+                _player = new Player(_playerName, 125, 50, 29, _raiderItems);
+                _currentScene = 2;
             }
         }
 
@@ -250,12 +250,12 @@ namespace BattleArena
 
             int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of reader to attack do you", "Attack", "Equip item");
 
-            if (choice == 1)
+            if (choice == 0)
             {
                 damageDealt = _player.Attack(_currentEnemy);
                 Console.WriteLine("You dealt " + damageDealt + " damage!");
             }
-            else if (choice == 2)
+            else if (choice == 1)
             {
                 Console.WriteLine("You dodged the enemy's attack!");
                 Console.ReadKey();
@@ -304,3 +304,5 @@ namespace BattleArena
 
     }
 }
+
+
