@@ -85,7 +85,7 @@ namespace BattleArena
         }
 
         //returns the name of all items that player could have
-        public  string[] GetItemNames()
+        public string[] GetItemNames()
         {
             string[] itemNames = new string[_items.Length];
 

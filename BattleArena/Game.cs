@@ -66,10 +66,10 @@ namespace BattleArena
         {
             //Gunner items
             Item bigGun = new Item { Name = "Big Gud", StatBoost = 5, Type = ItemType.ATTACK };
-            Item bigShield = new Item { Name = "Big Shield", StatBoost = 15 , Type = ItemType.DEFENSE };
+            Item bigShield = new Item { Name = "Big Shield", StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Raider items
-            Item bigAxe = new Item { Name= "Big Axe ", StatBoost = 15, Type = ItemType.ATTACK };
+            Item bigAxe = new Item { Name = "Big Axe ", StatBoost = 15, Type = ItemType.ATTACK };
             Item forceShield = new Item { Name = "Force Shield ", StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Initialize arrays
@@ -132,8 +132,8 @@ namespace BattleArena
         /// <param name="option1">The first option the player can choose</param>
         /// <param name="option2">The second option the player can choose</param>
         /// <returns></returns>
-       int GetInput(string description, params string[] options)
-       {
+        int GetInput(string description, params string[] options)
+        {
             string input = "";
             int inputReceived = -1;
 
@@ -298,7 +298,7 @@ namespace BattleArena
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
 
-            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of reader to attack do you", "Attack", "Equip item", "Remove current item");
+            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of reader to attack do you", "Attack", "Equip item", "Remove current item", "Save. ");
 
             if (choice == 0)
             {
@@ -319,6 +319,14 @@ namespace BattleArena
                 else
                     Console.WriteLine("you plced the item on the ground. ");
 
+                Console.ReadKey(true);
+                Console.Clear();
+                return;
+            }
+            else if (choice == 3)
+            {
+                Save();
+                Console.WriteLine("Save Game!");
                 Console.ReadKey(true);
                 Console.Clear();
                 return;
