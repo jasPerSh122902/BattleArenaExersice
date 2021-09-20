@@ -9,6 +9,26 @@ namespace BattleArena
         private Item[] _items;
         private Item _currentItem;
 
+
+        public override float DefensePower
+        {
+            get
+            {
+                if (_currentItem.ItemType == 0)
+                    return base.DefensePower + CurrentItem.StatBoost;
+                return base.DefensePower;
+            }
+        }
+        public override float AttackPower
+        {
+            get
+            {
+                if (_currentItem.ItemType == 1)
+                    return base.AttackPower + CurrentItem.StatBoost;
+                return base.AttackPower;
+            }
+        }
+
         public Item CurrentItem
         {
 
