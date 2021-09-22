@@ -32,14 +32,25 @@ namespace BattleArena
             get { return _defensePower; }
         }
 
+        /// <summary>
+        /// makes a instrence of Entity for a original idea...
+        /// </summary>
         public Entity()
         {
+            
             _name = "Default";
             _health = 0;
             _attackPower = 0;
             _defensePower = 0;
         }
 
+        /// <summary>
+        /// uses the Entity instrence to then add on to it for the following varables.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="health"></param>
+        /// <param name="attackPower"></param>
+        /// <param name="defensePower"></param>
         public Entity(string name, float health, float attackPower, float defensePower)
         {
             _name = name;
@@ -50,22 +61,33 @@ namespace BattleArena
 
         public float TakeDamage(float damageAmount)
         {
+            //made a varable damage taken then make it equial..
             float damageTaken = damageAmount - DefensePower;
 
+            //just in case the damage taken is less than 0 to not heal the player or enemy it go to zero.
             if (damageTaken < 0)
             {
                 damageTaken = 0;
             }
 
+            //incraments health from damage.
             _health -= damageTaken;
 
+            //returns the damage.
             return damageTaken;
         }
 
+
         public float Attack(Entity defender)
         {
+            //meant to take a defender place holder or varable then returns the damage from the take damage function.
             return defender.TakeDamage(AttackPower);
         }
+
+    /// <summary>
+    /// is meant to save all states that the player currently has and puts them in a file to save.
+    /// </summary>
+    /// <param name="writer"></param>
 
         public virtual void Save(StreamWriter writer)
         {
@@ -75,6 +97,11 @@ namespace BattleArena
             writer.WriteLine(_defensePower);
         }
 
+        /// <summary>
+        /// is meant to take all of the states from Save and give them back to player.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         public virtual bool Load(StreamReader reader)
         {
             _name = reader.ReadLine();
