@@ -97,7 +97,7 @@ namespace BattleArena
 
             Entity chad = new Entity("Chad", 80, 32, 25, 1500000);
 
-            Entity wompus = new Entity("Wompus", 225, 30 ,25, 200000);
+            Entity wompus = new Entity("Wompus", 225, 30, 25, 200000);
 
             _enemies = new Entity[] { claud, chad, wompus };
 
@@ -123,7 +123,7 @@ namespace BattleArena
 
         public void Save()
         {
-            
+
 
             //create a new stream below
             StreamWriter writer = new StreamWriter("SaveData.txt");
@@ -160,7 +160,7 @@ namespace BattleArena
 
             string job = reader.ReadLine();
 
-          
+
 
             if (job == "gunner")
                 _player = new Player(_gunnerItems);
@@ -251,7 +251,7 @@ namespace BattleArena
         void DisplayCurrentScene()
         {
 
-            switch(_currentScene)
+            switch (_currentScene)
             {
                 case Scene.STARTMENU:
                     DisplayStartMenu();
@@ -314,7 +314,7 @@ namespace BattleArena
                     Console.ReadKey(true);
                     Console.Clear();
                 }
-                    
+
             }
         }
 
@@ -392,7 +392,7 @@ namespace BattleArena
         public void Battle()
         {
             float damageDealt = 0;
-           
+
 
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
@@ -477,5 +477,3 @@ namespace BattleArena
 
     }
 }
-
-

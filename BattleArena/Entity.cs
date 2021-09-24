@@ -44,7 +44,7 @@ namespace BattleArena
         /// </summary>
         public Entity()
         {
-            
+
             _name = "Default";
             _health = 0;
             _attackPower = 0;
@@ -112,10 +112,10 @@ namespace BattleArena
         {
             return attacker.TakeGold(_goldAmount);
         }
-    /// <summary>
-    /// is meant to save all states that the player currently has and puts them in a file to save.
-    /// </summary>
-    /// <param name="writer"></param>
+        /// <summary>
+        /// is meant to save all states that the player currently has and puts them in a file to save.
+        /// </summary>
+        /// <param name="writer"></param>
 
         public virtual void Save(StreamWriter writer)
         {

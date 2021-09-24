@@ -50,7 +50,7 @@ namespace BattleArena
             {
                 _job = value;
             }
-               
+
         }
 
         public Player()
@@ -60,14 +60,14 @@ namespace BattleArena
             _currentItemIndex = -1;
         }
 
-        public Player(Item[] items): base()
+        public Player(Item[] items) : base()
         {
             _currentItem.Name = "Nothing";
             _items = items;
             _currentItemIndex = -1;
         }
 
-        public Player(string name, float health, float attackPower,float goldAmount, float defensePower, Item[] items, string job) : base(name, health, goldAmount, attackPower, defensePower)
+        public Player(string name, float health, float attackPower, float goldAmount, float defensePower, Item[] items, string job) : base(name, health, goldAmount, attackPower, defensePower)
         {
             _items = items;
             _currentItem.Name = "Nothing";
@@ -141,13 +141,12 @@ namespace BattleArena
                 return false;
 
             //if the loading function works then gos to CurrentItemIndex if that dos not load return false...
-            if(!int.TryParse(reader.ReadLine(), out _currentItemIndex))
+            if (!int.TryParse(reader.ReadLine(), out _currentItemIndex))
                 return false;
-
 
             //then return the Item Index wether the top two were successful.
             //This one returns wether the item was equipped or not.
-           return TryEquipItem(_currentItemIndex);
+            return TryEquipItem(_currentItemIndex);
         }
     }
 }
