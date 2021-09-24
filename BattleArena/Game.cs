@@ -392,7 +392,7 @@ namespace BattleArena
         public void Battle()
         {
             float damageDealt = 0;
-            float enemyGold = 0;
+           
 
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
@@ -402,9 +402,9 @@ namespace BattleArena
             if (choice == 0)
             {
                 damageDealt = _player.Attack(_currentEnemy);
-                enemyGold = _currentEnemy.Gold(_player);
 
-                Console.WriteLine("You dealt " + damageDealt + " damage!" + " You stole " + enemyGold + "Gold!! you theif.");
+
+                Console.WriteLine("You dealt " + damageDealt + " damage!");
             }
             else if (choice == 1)
             {
@@ -445,6 +445,9 @@ namespace BattleArena
         /// </summary>
         void CheckBattleResults()
         {
+            //has to specifi the gold form the enemy.
+            float enemyGold = 0;
+
             if (_player.Health <= 0)
             {
                 Console.WriteLine("You were slain...");
@@ -454,7 +457,8 @@ namespace BattleArena
             }
             else if (_currentEnemy.Health <= 0)
             {
-                Console.WriteLine("You slayed the " + _currentEnemy.Name);
+                enemyGold = _currentEnemy.Gold(_player);
+                Console.WriteLine("You slayed the " + _currentEnemy.Name + "You stole " + enemyGold + " gold!");
                 Console.ReadKey();
                 Console.Clear();
                 _currentEnemyIndex++;
