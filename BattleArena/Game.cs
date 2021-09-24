@@ -41,6 +41,7 @@ namespace BattleArena
         private bool _gameOver;
         private Scene _currentScene;
         private Player _player;
+        private Shop _shop;
         private Entity[] _enemies;
         private int _currentEnemyIndex;
         private Entity _currentEnemy;
@@ -68,6 +69,9 @@ namespace BattleArena
         /// </summary>
         public void Start()
         {
+
+            //gives null so have the fix
+            _shop.DisplayShopMenuOptions();
             _gameOver = false;
             _currentScene = Scene.STARTMENU;
             InitializeEnemies();
@@ -198,7 +202,7 @@ namespace BattleArena
         /// <param name="option1">The first option the player can choose</param>
         /// <param name="option2">The second option the player can choose</param>
         /// <returns></returns>
-        int GetInput(string description, params string[] options)
+        public int GetInput(string description, params string[] options)
         {
             string input = "";
             int inputReceived = -1;
