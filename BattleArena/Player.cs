@@ -67,7 +67,7 @@ namespace BattleArena
             _currentItemIndex = -1;
         }
 
-        public Player(string name, float health, float attackPower, float defensePower, Item[] items, string job) : base(name, health, attackPower, defensePower)
+        public Player(string name, float health, float attackPower,float goldAmount, float defensePower, Item[] items, string job) : base(name, health, goldAmount, attackPower, defensePower)
         {
             _items = items;
             _currentItem.Name = "Nothing";

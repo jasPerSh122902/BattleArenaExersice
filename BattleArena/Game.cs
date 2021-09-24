@@ -29,6 +29,7 @@ namespace BattleArena
     public struct Item
     {
         public string Name;
+        public float ItemCost;
         public float StatBoost;
         public ItemType Type;
     }
@@ -76,7 +77,7 @@ namespace BattleArena
         public void InitializeItems()
         {
             //Gunner items
-            Item bigGun = new Item { Name = "Big Gud", StatBoost = 5, Type = ItemType.ATTACK };
+            Item bigGun = new Item { Name = "Big Gud", ItemCost = 25, StatBoost = 5, Type = ItemType.ATTACK };
             Item bigShield = new Item { Name = "Big Shield", StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Raider items
@@ -92,11 +93,11 @@ namespace BattleArena
         {
             _currentEnemyIndex = 0;
 
-            Entity claud = new Entity("Claud", 70, 25, 35);
+            Entity claud = new Entity("Claud", 70, 25, 35, 320000);
 
-            Entity chad = new Entity("Chad", 80, 32, 25);
+            Entity chad = new Entity("Chad", 80, 32, 25, 1500000);
 
-            Entity wompus = new Entity("Wompus", 225, 30, 25);
+            Entity wompus = new Entity("Wompus", 225, 30 ,25, 200000);
 
             _enemies = new Entity[] { claud, chad, wompus };
 
@@ -348,12 +349,12 @@ namespace BattleArena
 
             if (choice == 0)
             {
-                _player = new Player(_playerName, 100, 225, 15, _gunnerItems, "gunner");
+                _player = new Player(_playerName, 100, 15, 225, 100, _gunnerItems, "gunner");
                 _currentScene = Scene.BATTLE;
             }
             else if (choice == 1)
             {
-                _player = new Player(_playerName, 125, 50, 29, _raiderItems, "raider");
+                _player = new Player(_playerName, 125, 225, 100, 200, _raiderItems, "raider");
                 _currentScene = Scene.BATTLE;
             }
         }
@@ -368,6 +369,7 @@ namespace BattleArena
             Console.WriteLine("Health: " + character.Health);
             Console.WriteLine("Attack Power: " + character.AttackPower);
             Console.WriteLine("Defense Power: " + character.DefensePower);
+            Console.WriteLine("Gold amount: " + character.GoldAmount);
             Console.WriteLine();
         }
 
@@ -390,16 +392,19 @@ namespace BattleArena
         public void Battle()
         {
             float damageDealt = 0;
+            float enemyGold = 0;
 
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
 
-            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of reader to attack do you", "Attack", "Equip item", "Remove current item", "Save. ");
+            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of you do you", "Attack", "Equip item", "Remove current item", "Save. ");
 
             if (choice == 0)
             {
                 damageDealt = _player.Attack(_currentEnemy);
-                Console.WriteLine("You dealt " + damageDealt + " damage!");
+                enemyGold = _currentEnemy.Gold(_player);
+
+                Console.WriteLine("You dealt " + damageDealt + " damage!" + " You stole " + enemyGold + "Gold!! you theif.");
             }
             else if (choice == 1)
             {
@@ -430,7 +435,6 @@ namespace BattleArena
 
             damageDealt = _currentEnemy.Attack(_player);
             Console.WriteLine("The " + _currentEnemy.Name + " dealt " + damageDealt, " damage!");
-
             Console.ReadKey(true);
             Console.Clear();
         }
