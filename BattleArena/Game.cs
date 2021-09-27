@@ -45,6 +45,7 @@ namespace BattleArena
         private Entity[] _enemies;
         private int _currentEnemyIndex;
         private Entity _currentEnemy;
+        private Item[] _shopItems;
         private string _playerName;
         private Item[] _gunnerItems;
         private Item[] _raiderItems;
@@ -89,8 +90,10 @@ namespace BattleArena
             Item forceShield = new Item { Name = "Force Shield ", ItemCost = 34, StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Initialize arrays
+            _shopItems = new Item[] { bigAxe, bigGun, bigShield, forceShield };
             _gunnerItems = new Item[] { bigGun, bigShield };
             _raiderItems = new Item[] { bigAxe, forceShield };
+            _shop = new Shop(_shopItems);
         }
 
         public void InitializeEnemies()
@@ -114,6 +117,30 @@ namespace BattleArena
         public void Update()
         {
             DisplayCurrentScene();
+        }
+        public void DisplayShopMenuOptions()
+        {
+            Console.WriteLine("You got " + _player.currentGold + " Gold.");
+            Console.WriteLine("Your bag: ");
+
+
+            int choice = GetInput(" This is the Shop Hi and I hope you stay. ", _shop.GetShopMenuOptions());
+
+
+            if (choice >= 0 && choice < _shop.GetShopMenuOptions().Length)
+            {
+                if (_shop.Sell(_player, choice))
+                {
+                    Console.WriteLine(" Good choice of  purchise. ");
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine(" You got no gold get more. ");
+                    Console.Clear();
+                }
+            }
+
         }
 
         /// <summary>
@@ -431,7 +458,7 @@ namespace BattleArena
             }
             else if (choice == 3)
             {
-                _shop.DisplayShopMenuOptions();
+                DisplayShopMenuOptions();
             }
             else if (choice == 4)
             {
