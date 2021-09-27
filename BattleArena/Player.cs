@@ -7,11 +7,10 @@ namespace BattleArena
 {
     class Player : Entity
     {
-        private Shop _shop;
         private Item[] _items;
         private Item _currentItem;
         private int _currentItemIndex;
-        private Entity _currentGold;
+        private Item[] _inventory;
 
 
         public override float DefensePower
@@ -46,7 +45,8 @@ namespace BattleArena
 
         public Player()
         {
-            _items = new Item[0];
+            _inventory = new Item[0];
+
             _currentItem.Name = "Nothing";
             _currentItemIndex = -1;
         }
@@ -60,6 +60,7 @@ namespace BattleArena
 
         public Player(string name, float health, float attackPower, float currentGold, float defensePower, Item[] items, string job) : base(name, health, currentGold, attackPower, defensePower)
         {
+            _inventory = _items;
             _items = items;
             _currentItem.Name = "Nothing";
             Job = job;
@@ -85,10 +86,7 @@ namespace BattleArena
             return true;
         }
 
-        public void Buy(Item item)
-        {
-            _currentGold -= item.ItemCost;
-        }
+ 
 
         /// <summary>
         /// allow the player to know if they have a current item by...

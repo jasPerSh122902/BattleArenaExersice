@@ -6,20 +6,42 @@ namespace BattleArena
 {
     class Shop : Game
     {
+        private float _currentGold;
+        private Entity _entity;
         private Item[] _items;
         private Player _player;
-        private Game _game;
+        private Item[] _inventory;
+        
 
-
-        public Shop()
+        public Shop(Item[] items)
         {
-            Item[] items;
+            _inventory = items;
         }
+
         public void DisplayShopMenuOptions()
         {
-            int choice = _game.GetInput(" This is the Shop Hi and I hope you stay. ", GetShopMenuOptions());
-        }
+            Console.WriteLine("You got " + _player.currentGold + " Gold.");
+            Console.WriteLine("Your bag: ");
 
+
+            int choice = GetInput(" This is the Shop Hi and I hope you stay. ", GetShopMenuOptions());
+
+
+            if (choice >= 0 && choice < GetShopMenuOptions().Length)
+            {
+                if (Sell(_player, choice))
+                {
+                    Console.WriteLine(" Good choice of  purchise. ");
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine(" You got no gold get more. ");
+                    Console.Clear();
+                }
+            }
+
+        }
         public string[] GetShopMenuOptions()
         {
             //Create a new array with one more slot than the old array
@@ -38,7 +60,18 @@ namespace BattleArena
 
         //this is meant to find that ideam
 
-        // public float Sell()
+         public bool Sell(Player player, int itemIndex)
+         {
+            if (player.currentGold >= _items[itemIndex].ItemCost)
+            {
+
+                _currentGold += _items[itemIndex].ItemCost;
+                _entity.Buy(_items[itemIndex]);
+                return true;
+
+            }
+            return false;
+         }
 
         // this is meant to allow the player to give the item back to the shop
         //this is a probeble issue tho be warned.

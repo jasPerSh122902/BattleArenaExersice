@@ -40,8 +40,8 @@ namespace BattleArena
 
         private bool _gameOver;
         private Scene _currentScene;
+        public Shop _shop;
         private Player _player;
-        private Shop _shop;
         private Entity[] _enemies;
         private int _currentEnemyIndex;
         private Entity _currentEnemy;
@@ -71,7 +71,7 @@ namespace BattleArena
         {
 
             //gives null so have the fix
-         
+
             _gameOver = false;
             _currentScene = Scene.STARTMENU;
             InitializeEnemies();
@@ -277,6 +277,7 @@ namespace BattleArena
 
         }
 
+
         /// <summary>
         /// Displays the menu that allows the player to start or quit the game
         /// </summary>
@@ -401,7 +402,7 @@ namespace BattleArena
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
 
-            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of you do you", "Attack", "Equip item", "Remove current item", "Save. ");
+            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of you do you", "Attack ", "Equip item ", "Remove current item", "Go to the Shop! ","Leave: ", "Save. ");
 
             if (choice == 0)
             {
@@ -429,6 +430,14 @@ namespace BattleArena
                 return;
             }
             else if (choice == 3)
+            {
+                _shop.DisplayShopMenuOptions();
+            }
+            else if (choice == 4)
+            {
+                _gameOver = true;
+            }
+            else if (choice == 5)
             {
                 Save();
                 Console.WriteLine("Save Game!");

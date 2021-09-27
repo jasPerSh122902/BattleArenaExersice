@@ -7,11 +7,13 @@ namespace BattleArena
 {
     class Entity
     {
+        private Item[] _inventory;
+        private Player _player;
         private string _name;
         private float _health;
         private float _attackPower;
         private float _defensePower;
-        public float _currentGold;
+        private float _currentGold;
 
 
         public string Name
@@ -66,6 +68,7 @@ namespace BattleArena
             _attackPower = attackPower;
             _defensePower = defensePower;
             _currentGold = currentGold;
+            _inventory = new Item[0];
         }
 
         public float TakeDamage(float damageAmount)
@@ -93,6 +96,7 @@ namespace BattleArena
             return defender.TakeDamage(AttackPower);
         }
 
+
         public float TakeGold(float enemyGold)
         {
             float goldTaken = enemyGold - currentGold;
@@ -107,6 +111,22 @@ namespace BattleArena
 
             return goldTaken;
         }
+
+
+        public void Buy(Item item)
+        {
+            _currentGold -= item.ItemCost;
+
+            Item[] playerinventory = new Item[_inventory.Length + 1];
+
+            for (int i = 0; i < _inventory.Length; i++)
+                _player._inventory[i] = _inventory[i];
+
+            _player._inventory[_inventory.Length] = item;
+
+            _inventory = _player._inventory;
+        }
+
 
         public float Gold(Entity attacker)
         {
