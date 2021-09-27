@@ -11,6 +11,10 @@ namespace BattleArena
         private Game _game;
 
 
+        public Shop()
+        {
+            Item[] items;
+        }
         public void DisplayShopMenuOptions()
         {
             int choice = _game.GetInput(" This is the Shop Hi and I hope you stay. ", GetShopMenuOptions());
@@ -41,6 +45,9 @@ namespace BattleArena
         // this is meant to allow the player to give the item back to the shop
         //this is a probeble issue tho be warned.
 
+
+
     }
+
 
 }

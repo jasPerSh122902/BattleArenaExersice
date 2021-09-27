@@ -71,7 +71,7 @@ namespace BattleArena
         {
 
             //gives null so have the fix
-            _shop.DisplayShopMenuOptions();
+         
             _gameOver = false;
             _currentScene = Scene.STARTMENU;
             InitializeEnemies();
@@ -82,11 +82,11 @@ namespace BattleArena
         {
             //Gunner items
             Item bigGun = new Item { Name = "Big Gud", ItemCost = 25, StatBoost = 5, Type = ItemType.ATTACK };
-            Item bigShield = new Item { Name = "Big Shield", StatBoost = 15, Type = ItemType.DEFENSE };
+            Item bigShield = new Item { Name = "Big Shield", ItemCost = 30, StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Raider items
-            Item bigAxe = new Item { Name = "Big Axe ", StatBoost = 15, Type = ItemType.ATTACK };
-            Item forceShield = new Item { Name = "Force Shield ", StatBoost = 15, Type = ItemType.DEFENSE };
+            Item bigAxe = new Item { Name = "Big Axe ", ItemCost = 25, StatBoost = 15, Type = ItemType.ATTACK };
+            Item forceShield = new Item { Name = "Force Shield ", ItemCost = 34, StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Initialize arrays
             _gunnerItems = new Item[] { bigGun, bigShield };
@@ -97,11 +97,11 @@ namespace BattleArena
         {
             _currentEnemyIndex = 0;
 
-            Entity claud = new Entity("Claud", 70, 25, 35, 320000);
+            Entity claud = new Entity("Claud", 70, 25, 35, 320);
 
-            Entity chad = new Entity("Chad", 80, 32, 25, 1500000);
+            Entity chad = new Entity("Chad", 80, 32, 25, 150);
 
-            Entity wompus = new Entity("Wompus", 225, 30, 25, 200000);
+            Entity wompus = new Entity("Wompus", 225, 30, 25, 200);
 
             _enemies = new Entity[] { claud, chad, wompus };
 

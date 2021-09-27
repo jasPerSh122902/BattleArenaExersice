@@ -11,7 +11,7 @@ namespace BattleArena
         private float _health;
         private float _attackPower;
         private float _defensePower;
-        private float _goldAmount;
+        private float _currentGold;
 
 
         public string Name
@@ -34,9 +34,9 @@ namespace BattleArena
             get { return _defensePower; }
         }
 
-        public virtual float GoldAmount
+        public virtual float currentGold
         {
-            get { return _goldAmount; }
+            get { return _currentGold; }
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace BattleArena
             _health = 0;
             _attackPower = 0;
             _defensePower = 0;
-            _goldAmount = 0;
+            _currentGold = 0;
         }
 
         /// <summary>
@@ -59,13 +59,13 @@ namespace BattleArena
         /// <param name="health"></param>
         /// <param name="attackPower"></param>
         /// <param name="defensePower"></param>
-        public Entity(string name, float health, float attackPower, float defensePower, float goldAmount)
+        public Entity(string name, float health, float attackPower, float defensePower, float currentGold)
         {
             _name = name;
             _health = health;
             _attackPower = attackPower;
             _defensePower = defensePower;
-            _goldAmount = goldAmount;
+            _currentGold = currentGold;
         }
 
         public float TakeDamage(float damageAmount)
@@ -95,7 +95,7 @@ namespace BattleArena
 
         public float TakeGold(float enemyGold)
         {
-            float goldTaken = enemyGold - GoldAmount;
+            float goldTaken = enemyGold - currentGold;
 
             if (goldTaken < 0)
             {
@@ -103,14 +103,14 @@ namespace BattleArena
                 Console.WriteLine("");
             }
 
-            _goldAmount += goldTaken;
+            _currentGold += goldTaken;
 
             return goldTaken;
         }
 
         public float Gold(Entity attacker)
         {
-            return attacker.TakeGold(_goldAmount);
+            return attacker.TakeGold(_currentGold);
         }
         /// <summary>
         /// is meant to save all states that the player currently has and puts them in a file to save.
