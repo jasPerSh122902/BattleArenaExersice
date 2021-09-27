@@ -35,8 +35,6 @@ namespace BattleArena
             return itemNames;
 
         }
-        //this is meant to see if the item in the shop can be bought
-        /// public bool Buy()
 
         //this is meant to find that ideam
 

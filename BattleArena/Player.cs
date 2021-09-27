@@ -11,7 +11,8 @@ namespace BattleArena
         private Item[] _items;
         private Item _currentItem;
         private int _currentItemIndex;
-        private string _job;
+        private Entity _currentGold;
+
 
         public override float DefensePower
         {
@@ -41,18 +42,7 @@ namespace BattleArena
             }
         }
 
-        public string Job
-        {
-            get
-            {
-                return _job;
-            }
-            set
-            {
-                _job = value;
-            }
-
-        }
+        public string Job { get; set; }
 
         public Player()
         {
@@ -72,7 +62,7 @@ namespace BattleArena
         {
             _items = items;
             _currentItem.Name = "Nothing";
-            _job = job;
+            Job = job;
             _currentItemIndex = -1;
         }  
 
@@ -97,7 +87,7 @@ namespace BattleArena
 
         public void Buy(Item item)
         {
-            Entity._goldAmount
+            _currentGold -= item.ItemCost;
         }
 
         /// <summary>
@@ -134,7 +124,7 @@ namespace BattleArena
 
         public override void Save(StreamWriter writer)
         {
-            writer.WriteLine(_job);
+            writer.WriteLine(Job);
             base.Save(writer);
             writer.WriteLine(_currentItemIndex);
         }

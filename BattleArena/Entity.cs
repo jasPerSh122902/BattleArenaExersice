@@ -11,7 +11,7 @@ namespace BattleArena
         private float _health;
         private float _attackPower;
         private float _defensePower;
-        private float _currentGold;
+        public float _currentGold;
 
 
         public string Name
@@ -34,7 +34,7 @@ namespace BattleArena
             get { return _defensePower; }
         }
 
-        public virtual float currentGold
+        public  float currentGold
         {
             get { return _currentGold; }
         }

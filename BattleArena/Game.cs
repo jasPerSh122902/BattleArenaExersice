@@ -373,7 +373,7 @@ namespace BattleArena
             Console.WriteLine("Health: " + character.Health);
             Console.WriteLine("Attack Power: " + character.AttackPower);
             Console.WriteLine("Defense Power: " + character.DefensePower);
-            Console.WriteLine("Gold amount: " + character.GoldAmount);
+            Console.WriteLine("Gold amount: " + character.currentGold);
             Console.WriteLine();
         }
 
