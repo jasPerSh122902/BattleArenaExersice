@@ -40,9 +40,11 @@ namespace BattleArena
          {
             if (player.currentGold >= _shopItems[itemIndex].ItemCost)
             {
-
+                //incraments current gold of player from the item cost
                 _currentGold += _shopItems[itemIndex].ItemCost;
+                //uses the buy funtion to find and incrament the shop items.
                 _entity.Buy(_shopItems[itemIndex]);
+                //...if possible 
                 return true;
 
             }

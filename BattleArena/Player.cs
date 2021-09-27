@@ -43,6 +43,7 @@ namespace BattleArena
 
         public string Job { get; set; }
 
+        //made a instence of player
         public Player()
         {
             _inventory = new Item[0];
@@ -51,6 +52,7 @@ namespace BattleArena
             _currentItemIndex = -1;
         }
 
+        //made player but now with item[] array and the base key word
         public Player(Item[] items) : base()
         {
             _currentItem.Name = "Nothing";
@@ -58,11 +60,14 @@ namespace BattleArena
             _currentItemIndex = -1;
         }
 
+        //made player using entity as a means to set the states...
         public Player(string name, float health, float attackPower, float currentGold, float defensePower, Item[] items, string job) : base(name, health, currentGold, attackPower, defensePower)
         {
+            //stated other varables that are needed
             _inventory = _items;
             _items = items;
             _currentItem.Name = "Nothing";
+            //and the job is set here
             Job = job;
             _currentItemIndex = -1;
         }  

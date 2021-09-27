@@ -61,6 +61,7 @@ namespace BattleArena
         /// <param name="health"></param>
         /// <param name="attackPower"></param>
         /// <param name="defensePower"></param>
+        /// /// <param name= "currentGold"></param>
         public Entity(string name, float health, float attackPower, float defensePower, float currentGold)
         {
             _name = name;
@@ -90,9 +91,10 @@ namespace BattleArena
         }
 
 
+        //this is the attack function it makes the defender take the damage...
         public float Attack(Entity defender)
         {
-            //meant to take a defender place holder or varable then returns the damage from the take damage function.
+            //then the attackers attackpower is put in with the takeDamage function.
             return defender.TakeDamage(AttackPower);
         }
 
@@ -101,12 +103,15 @@ namespace BattleArena
         {
             float goldTaken = enemyGold - currentGold;
 
+            //makes sure you can not to take gold form a enemy that has no gold ..
             if (goldTaken < 0)
             {
+                //makes gold taken 0
                 goldTaken = 0;
                 Console.WriteLine("");
             }
 
+            //incraments gold
             _currentGold += goldTaken;
 
             return goldTaken;
@@ -115,19 +120,23 @@ namespace BattleArena
 
         public void Buy(Item item)
         {
+            //incraments current gold for the player to the cost of the item.
             _currentGold -= item.ItemCost;
 
+            //scans to find the item and puts it in the inventory
             Item[] playerinventory = new Item[_inventory.Length + 1];
 
+            //incraments the inventory for player
             for (int i = 0; i < _inventory.Length; i++)
                 _player._inventory[i] = _inventory[i];
 
+            //places the item in the player inventory
             _player._inventory[_inventory.Length] = item;
 
             _inventory = _player._inventory;
         }
 
-
+        //alows the attacker to get the gold from the enemy 
         public float Gold(Entity attacker)
         {
             return attacker.TakeGold(_currentGold);
