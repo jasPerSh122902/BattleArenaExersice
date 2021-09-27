@@ -110,11 +110,7 @@ namespace BattleArena
             return false;
         }
         //alows the attacker to get the gold from the enemy 
-        public float Gold(Entity attacker)
-        {
-            //is meant to take gold
-            return attacker.TakeGold(_enemy._currentEnemyGold);
-        }
+
 
         public Item[] GetInventory()
         {
@@ -144,19 +140,26 @@ namespace BattleArena
         //returns the name of all items that player could have
         public string[] GetItemNames()
         {
+            //gets a string array and call it item names...
             string[] itemNames = new string[_items.Length];
 
+            //then made a for loop that gos through the array...
             for (int i = 0; i < _items.Length; i++)
             {
+                //and gives the items i or items 1,2,3 a name
                 itemNames[i] = _items[i].Name;
             }
 
+            //return the names of items
             return itemNames;
         }
 
+        //makes sure to save the players progress...
         public override void Save(StreamWriter writer)
         {
+            //saves the job which catacgorizes the player
             writer.WriteLine(Job);
+            //uses the writer as a save point.
             base.Save(writer);
             writer.WriteLine(_currentItemIndex);
         }

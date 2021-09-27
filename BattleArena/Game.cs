@@ -77,14 +77,17 @@ namespace BattleArena
             _currentScene = Scene.STARTMENU;
             InitializeEnemies();
             InitializeItems();
+
+            _shop = new Shop(_shopItems);
+            _player = new Player();
         }
 
         public void InitializeItems()
         {
-            
+
             //Gunner items
-            Item bigGun = new Item { Name = "Big Gud", ItemCost = 25, StatBoost = 5, Type = ItemType.ATTACK };
-            Item bigShield = new Item { Name = "Big Shield", ItemCost = 30, StatBoost = 15, Type = ItemType.DEFENSE };
+            Item bigGun = new Item { Name = "Big Gun ", ItemCost = 25, StatBoost = 5, Type = ItemType.ATTACK };
+            Item bigShield = new Item { Name = "Big Shield ", ItemCost = 30, StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Raider items
             Item bigAxe = new Item { Name = "Big Axe ", ItemCost = 25, StatBoost = 15, Type = ItemType.ATTACK };
@@ -115,6 +118,15 @@ namespace BattleArena
             _currentEnemy = _enemies[_currentEnemyIndex];
         }
 
+        //this do not work you should fix this...
+        public void PrintInventory(Item[] items)
+        {
+            for (int i = 1; i < items.Length; i++)
+            {
+                Console.WriteLine((i + 1) + ". " + items[i].Name + items[i].ItemCost);
+            }
+        }
+
         /// <summary>
         /// This function is called every time the game loops.
         /// </summary>
@@ -141,11 +153,37 @@ namespace BattleArena
                 }
                 else if (_player.currentGold >= _shopItems[itemIndex].ItemCost)
                 {
-                    Console.WriteLine("");
-                    Console.Clear();
+                    Console.WriteLine("You havve bought the " + itemIndex + " good luck ");
+                    PrintInventory(_player.GetInventory());
+
+                    char input = Console.ReadKey().KeyChar;
+
+                    int playerIndex = -1;
+
+                    switch (input)
+                    {
+                        case '1':
+                            {
+                                playerIndex = 0;
+                                break;
+                            }
+                        case '2':
+                            {
+                                playerIndex = 1;
+                                break;
+                            }
+                        case '3':
+                            {
+                                playerIndex = 2;
+                                break;
+                            }
+                        default:
+                            {
+                                return;
+                            }
+                    }
                 }
             }
-
         }
 
         /// <summary>
@@ -328,16 +366,21 @@ namespace BattleArena
             }
         }
 
+        /// <summary>
+        /// gets the start menu and then askes player to start a  new or load save file.
+        /// </summary>
         public void DisplayStartMenu()
         {
             int choice = GetInput("Welcome to the Areana!", "Start New Game", "Load Game");
 
             if (choice == 0)
             {
+                //sest current scene to ask for there name...
                 _currentScene = Scene.NAMECREATION;
             }
             else if (choice == 1)
             {
+                //loads the players save and then battles the enemy..
                 if (Load())
                 {
                     Console.WriteLine("Load Successful!");
@@ -347,6 +390,7 @@ namespace BattleArena
                 }
                 else
                 {
+                    //if load failes.
                     Console.WriteLine("Load failed.");
                     Console.ReadKey(true);
                     Console.Clear();
@@ -367,6 +411,7 @@ namespace BattleArena
 
             Console.Clear();
 
+            //intro with player name.
             int choice = GetInput("You've entered " + _playerName + ". Are you sure you want to keep this name?", "Yes", "No");
 
             if (choice == 0)
@@ -450,6 +495,7 @@ namespace BattleArena
             }
             else if (choice == 1)
             {
+                //gives the player the chance to equip a item of there choice.
                 DisplayEquipItemMenu();
                 Console.ReadKey(true);
                 Console.Clear();
@@ -457,8 +503,11 @@ namespace BattleArena
             }
             else if (choice == 2)
             {
+                //makes sure the player has full controle of the entity they chose so they can...
+                //remove the item or just leave it there....
                 if (!_player.TryRemoveCurrentItem())
                     Console.WriteLine("You dont know enthing equipped good luck. ");
+                //if they have nothing equiped...
                 else
                     Console.WriteLine("you plced the item on the ground. ");
 
@@ -468,14 +517,17 @@ namespace BattleArena
             }
             else if (choice == 3)
             {
+                //the shop option
                 DisplayShopMenuOptions();
             }
             else if (choice == 4)
             {
+                //this is to leave the game.
                 _gameOver = true;
             }
             else if (choice == 5)
             {
+                //this is to save your game.
                 Save();
                 Console.WriteLine("Save Game!");
                 Console.ReadKey(true);
@@ -499,6 +551,7 @@ namespace BattleArena
 
             if (_player.Health <= 0)
             {
+                //player dies.
                 Console.WriteLine("You were slain...");
                 Console.ReadKey(true);
                 Console.Clear();
@@ -506,14 +559,18 @@ namespace BattleArena
             }
             else if (_currentEnemy.Health <= 0)
             {
+                //if the enemy dies then there gold is given to the player but only 100...
                 _player._currentGold += 100;
                 Console.WriteLine("You slayed the " + _currentEnemy.Name + "You stole " + enemyGold + " gold!");
                 Console.ReadKey();
                 Console.Clear();
+                //update the current enemy till completion.
                 _currentEnemyIndex++;
 
+                //scans to see if there is no enemies is there is keep going if not then ...
                 if (_currentEnemyIndex >= _enemies.Length)
                 {
+                    //update current scene.
                     _currentScene = Scene.RESTARTMENU;
                     Console.WriteLine("You've slain all the enemies! You are vitorious but there will be more.");
                     return;
