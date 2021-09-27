@@ -9,8 +9,13 @@ namespace BattleArena
         private float _currentGold;
         private Entity _entity;
         private Item[] _shopItems;
-        
 
+        
+        public Shop()
+        {
+            _currentGold = 100;
+            _shopItems = new Item[4];
+        }
         public Shop(Item[] items)
         {
             _currentGold = 1000;
@@ -21,7 +26,7 @@ namespace BattleArena
         public string[] GetShopMenuOptions()
         {
             //Create a new array with one more slot than the old array
-            string[] itemNames = new string[_shopItems.Length + 2];
+            string[] itemNames = new string[_shopItems.Length];
 
             //Copy the values from the old array into the new array
             for (int i = 0; i < _shopItems.Length; i++)
@@ -36,27 +41,16 @@ namespace BattleArena
 
         //this is meant to find that ideam
 
-         public bool Sell(Player player, int itemIndex)
+         public bool Sell(Player player, int itemIndex, int playerIndex)
          {
-            if (player.currentGold >= _shopItems[itemIndex].ItemCost)
-            {
-                //incraments current gold of player from the item cost
-                _currentGold += _shopItems[itemIndex].ItemCost;
-                //uses the buy funtion to find and incrament the shop items.
-                _entity.Buy(_shopItems[itemIndex]);
-                //...if possible 
-                return true;
+            Item itemToBuy = _shopItems[itemIndex];
 
+            if (player.Buy(itemToBuy, playerIndex))
+            {
+                _currentGold += itemToBuy.ItemCost;
+                return true;
             }
             return false;
          }
-
-        // this is meant to allow the player to give the item back to the shop
-        //this is a probeble issue tho be warned.
-
-
-
     }
-
-
 }

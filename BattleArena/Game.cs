@@ -29,7 +29,7 @@ namespace BattleArena
     public struct Item
     {
         public string Name;
-        public float ItemCost;
+        public int ItemCost;
         public float StatBoost;
         public ItemType Type;
     }
@@ -81,6 +81,7 @@ namespace BattleArena
 
         public void InitializeItems()
         {
+            
             //Gunner items
             Item bigGun = new Item { Name = "Big Gud", ItemCost = 25, StatBoost = 5, Type = ItemType.ATTACK };
             Item bigShield = new Item { Name = "Big Shield", ItemCost = 30, StatBoost = 15, Type = ItemType.DEFENSE };
@@ -90,9 +91,12 @@ namespace BattleArena
             Item forceShield = new Item { Name = "Force Shield ", ItemCost = 34, StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Initialize arrays
-            _shopItems = new Item[] { bigAxe, bigGun, bigShield, forceShield };
             _gunnerItems = new Item[] { bigGun, bigShield };
+
             _raiderItems = new Item[] { bigAxe, forceShield };
+
+            _shopItems = new Item[] { bigAxe, bigGun, bigShield, forceShield };
+
             _shop = new Shop(_shopItems);
         }
 
@@ -100,11 +104,11 @@ namespace BattleArena
         {
             _currentEnemyIndex = 0;
 
-            Entity claud = new Entity("Claud", 70, 25, 35, 320);
+            Entity claud = new Entity("Claud", 70, 25, 45, 100);
 
-            Entity chad = new Entity("Chad", 80, 32, 25, 150);
+            Entity chad = new Entity("Chad", 80, 32, 25, 100);
 
-            Entity wompus = new Entity("Wompus", 225, 30, 25, 200);
+            Entity wompus = new Entity("Wompus", 225, 30, 25, 100);
 
             _enemies = new Entity[] { claud, chad, wompus };
 
@@ -120,6 +124,7 @@ namespace BattleArena
         }
         public void DisplayShopMenuOptions()
         {
+            int itemIndex = 0;
             Console.WriteLine("You got " + _player.currentGold + " Gold.");
             Console.WriteLine("Your bag: ");
 
@@ -129,14 +134,14 @@ namespace BattleArena
 
             if (choice >= 0 && choice < _shop.GetShopMenuOptions().Length)
             {
-                if (_shop.Sell(_player, choice))
+                if (_player.currentGold < _shopItems[itemIndex].ItemCost)
                 {
-                    Console.WriteLine(" Good choice of  purchise. ");
-                    Console.Clear();
+                    Console.WriteLine("You cant afford this.");
+                    return;
                 }
-                else
+                else if (_player.currentGold >= _shopItems[itemIndex].ItemCost)
                 {
-                    Console.WriteLine(" You got no gold get more. ");
+                    Console.WriteLine("");
                     Console.Clear();
                 }
             }
@@ -433,10 +438,15 @@ namespace BattleArena
 
             if (choice == 0)
             {
+                //the player is dealing damage in there turn
                 damageDealt = _player.Attack(_currentEnemy);
-
-
+                //input for the player to know they did damage
                 Console.WriteLine("You dealt " + damageDealt + " damage!");
+
+                //enemy turn to deal the damage and ...
+                damageDealt = _currentEnemy.Attack(_player);
+                //this is the input for that.
+                Console.WriteLine("The " + _currentEnemy.Name + " dealt " + damageDealt, " damage!");
             }
             else if (choice == 1)
             {
@@ -473,8 +483,7 @@ namespace BattleArena
                 return;
             }
 
-            damageDealt = _currentEnemy.Attack(_player);
-            Console.WriteLine("The " + _currentEnemy.Name + " dealt " + damageDealt, " damage!");
+
             Console.ReadKey(true);
             Console.Clear();
         }
@@ -497,7 +506,7 @@ namespace BattleArena
             }
             else if (_currentEnemy.Health <= 0)
             {
-                enemyGold = _currentEnemy.Gold(_player);
+                _player._currentGold += 100;
                 Console.WriteLine("You slayed the " + _currentEnemy.Name + "You stole " + enemyGold + " gold!");
                 Console.ReadKey();
                 Console.Clear();

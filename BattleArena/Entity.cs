@@ -8,12 +8,14 @@ namespace BattleArena
     class Entity
     {
         private Item[] _inventory;
+        private Shop _shop;
         private Player _player;
+        private Enemy _enemy;
         private string _name;
         private float _health;
         private float _attackPower;
         private float _defensePower;
-        private float _currentGold;
+        public int _currentGold;
 
 
         public string Name
@@ -36,7 +38,7 @@ namespace BattleArena
             get { return _defensePower; }
         }
 
-        public  float currentGold
+        public virtual int currentGold
         {
             get { return _currentGold; }
         }
@@ -62,7 +64,7 @@ namespace BattleArena
         /// <param name="attackPower"></param>
         /// <param name="defensePower"></param>
         /// /// <param name= "currentGold"></param>
-        public Entity(string name, float health, float attackPower, float defensePower, float currentGold)
+        public Entity(string name, float health, float attackPower, float defensePower, int currentGold)
         {
             _name = name;
             _health = health;
@@ -99,48 +101,16 @@ namespace BattleArena
         }
 
 
-        public float TakeGold(float enemyGold)
+        public float TakeGold(int enemyGold)
         {
-            float goldTaken = enemyGold - currentGold;
-
-            //makes sure you can not to take gold form a enemy that has no gold ..
-            if (goldTaken < 0)
-            {
-                //makes gold taken 0
-                goldTaken = 0;
-                Console.WriteLine("");
-            }
+            int goldTaken = enemyGold;
 
             //incraments gold
             _currentGold += goldTaken;
 
             return goldTaken;
         }
-
-
-        public void Buy(Item item)
-        {
-            //incraments current gold for the player to the cost of the item.
-            _currentGold -= item.ItemCost;
-
-            //scans to find the item and puts it in the inventory
-            Item[] playerinventory = new Item[_inventory.Length + 1];
-
-            //incraments the inventory for player
-            for (int i = 0; i < _inventory.Length; i++)
-                _player._inventory[i] = _inventory[i];
-
-            //places the item in the player inventory
-            _player._inventory[_inventory.Length] = item;
-
-            _inventory = _player._inventory;
-        }
-
-        //alows the attacker to get the gold from the enemy 
-        public float Gold(Entity attacker)
-        {
-            return attacker.TakeGold(_currentGold);
-        }
+ 
         /// <summary>
         /// is meant to save all states that the player currently has and puts them in a file to save.
         /// </summary>

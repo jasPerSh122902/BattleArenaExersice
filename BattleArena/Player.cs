@@ -11,6 +11,8 @@ namespace BattleArena
         private Item _currentItem;
         private int _currentItemIndex;
         private Item[] _inventory;
+        private int _currentGold;
+        private Enemy _enemy;
 
 
         public override float DefensePower
@@ -61,7 +63,7 @@ namespace BattleArena
         }
 
         //made player using entity as a means to set the states...
-        public Player(string name, float health, float attackPower, float currentGold, float defensePower, Item[] items, string job) : base(name, health, currentGold, attackPower, defensePower)
+        public Player(string name, float health, float attackPower, float currentGold, int defensePower, Item[] items, string job) : base(name, health, currentGold, attackPower, defensePower)
         {
             //stated other varables that are needed
             _inventory = _items;
@@ -91,7 +93,34 @@ namespace BattleArena
             return true;
         }
 
- 
+        public bool Buy(Item item, int inventoryIndex)
+        {
+            //get the amount of gold the player has and consompares it to cost...
+            if(_currentGold >= item.ItemCost)
+            {
+                //when in loop suptracts the player gold from cost..
+                _currentGold -= item.ItemCost;
+
+                //finds item in Index and adds it to inventory
+                _inventory[inventoryIndex] = item;
+
+                return true;
+            }
+            //...returns false if player gold is not enough.
+            return false;
+        }
+        //alows the attacker to get the gold from the enemy 
+        public float Gold(Entity attacker)
+        {
+            //is meant to take gold
+            return attacker.TakeGold(_enemy._currentEnemyGold);
+        }
+
+        public Item[] GetInventory()
+        {
+            //its only use is to get the Invenotry of the player
+            return _inventory;
+        }
 
         /// <summary>
         /// allow the player to know if they have a current item by...
