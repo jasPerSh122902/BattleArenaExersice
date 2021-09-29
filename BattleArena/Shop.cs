@@ -38,10 +38,11 @@ namespace BattleArena
 
         }
 
-        //this is meant to find that ideam
-        public bool  Sell(Player player, int _currentitemIndex)
+        //this is meant to find that iteams of the player by...
+        public bool  Sell(Player player, int _currentItemIndex)
         {
-            Item itemToBuy = _inventory[_currentitemIndex];
+            //seting _inventory to _currentItemIndex and then 
+            Item itemToBuy = _inventory[_currentItemIndex];
 
             if (player.Buy(itemToBuy))
             {
@@ -49,9 +50,9 @@ namespace BattleArena
             }
             return false;
         }
-         public bool Sell(Player player, int _currentitemIndex, int playerIndex)
+         public bool Sell(Player player, int _currentItemIndex, int playerIndex)
          {
-            Item itemToBuy = _inventory[_currentitemIndex];
+            Item itemToBuy = _inventory[_currentItemIndex];
 
             if (player.Buy(itemToBuy, playerIndex))
             {

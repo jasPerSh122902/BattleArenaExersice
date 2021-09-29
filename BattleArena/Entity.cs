@@ -95,7 +95,11 @@ namespace BattleArena
             return defender.TakeDamage(AttackPower);
         }
 
-
+        /// <summary>
+        /// its to take the gold of the enemy.
+        /// </summary>
+        /// <param name="enemyGold"></param>
+        /// <returns></returns>
         public float TakeGold(int enemyGold)
         {
             int goldTaken = enemyGold;
@@ -137,6 +141,7 @@ namespace BattleArena
 
             if (!float.TryParse(reader.ReadLine(), out _defensePower))
                 return false;
+
             if (!int.TryParse(reader.ReadLine(), out _currentGold))
                 return false;
 

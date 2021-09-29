@@ -122,6 +122,7 @@ namespace BattleArena
                 //when in loop suptracts the player gold from cost..
                 _entity._currentGold -= item.ItemCost;
 
+                _currentItemIndex++;
                 //finds item in Index and adds it to inventory
                 return true;
             }

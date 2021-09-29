@@ -50,7 +50,7 @@ namespace BattleArena
         private Item[] _inventory;
         private Item[] _shopItems;
         //random variables...
-        private int _currentitemIndex = 0;
+        private int _currentItemIndex = 0;
         private int _currentEnemyIndex;
         private bool _gameOver;
         private string _playerName;
@@ -164,25 +164,32 @@ namespace BattleArena
             //gets choice or the players input and then lables the shop menu options.
             int choice = GetInput(" This is the Shop Hi and I hope you stay. ", _shop.GetShopMenuOptions());
 
+            //if player inputs a value that is not there...
             if (choice == -1)
             {
+                //error.
                 Console.WriteLine("Invadie input. ");
                 return;
 
             }
 
+            //if the length of the inventory is biger than 3
             if (_inventory.Length > 3)
             {
+                //then set the player index to 1...
                 playerIndex = 1;
+                //then use the GetItemNames and replace the item you want to replace.
                 choice = GetInput(" What item do you want to repace. ", _player.GetItemNames());
 
             }
 
+            //if the playerindex is 1 then sell...
             if(playerIndex == 1)
-               _shop.Sell(_player, _currentitemIndex = 1, playerIndex = 1);
-            
+               _shop.Sell(_player, _currentItemIndex = 1, playerIndex = 1);
+
+            //if not then sell eny ways.
             else
-                _shop.Sell(_player, _currentitemIndex = 1);
+                _shop.Sell(_player, _currentItemIndex = 1);
 
         }
 
@@ -198,8 +205,6 @@ namespace BattleArena
 
         public void Save()
         {
-
-
             //create a new stream below
             StreamWriter writer = new StreamWriter("SaveData.txt");
 
@@ -218,24 +223,19 @@ namespace BattleArena
         {
             bool loadSuccessful = true;
 
-
-
-            //figures out if file exists...
+            //figures out if file exists then if not load false.
             if (!File.Exists("SaveData.txt"))
-                //returns false
                 loadSuccessful = false;
+
 
             //creas a new reader to read from the text file
             StreamReader reader = new StreamReader("SaveData.txt");
 
-            //if the first line can't be converted into an integer...
+            //if the first line can't be converted into an integer returns false.
             if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
-                //...returns false
                 loadSuccessful = false;
 
             string job = reader.ReadLine();
-
-
 
             if (job == "gunner")
                 _player = new Player(_inventory);
