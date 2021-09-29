@@ -39,10 +39,19 @@ namespace BattleArena
         }
 
         //this is meant to find that ideam
+        public bool  Sell(Player player, int _currentitemIndex)
+        {
+            Item itemToBuy = _inventory[_currentitemIndex];
 
-         public bool Sell(Player player, int itemIndex, int playerIndex)
+            if (player.Buy(itemToBuy))
+            {
+                return true;
+            }
+            return false;
+        }
+         public bool Sell(Player player, int _currentitemIndex, int playerIndex)
          {
-            Item itemToBuy = _inventory[itemIndex];
+            Item itemToBuy = _inventory[_currentitemIndex];
 
             if (player.Buy(itemToBuy, playerIndex))
             {

@@ -117,6 +117,7 @@ namespace BattleArena
             writer.WriteLine(_health);
             writer.WriteLine(_attackPower);
             writer.WriteLine(_defensePower);
+            writer.WriteLine(_currentGold);
         }
 
         /// <summary>
@@ -135,6 +136,8 @@ namespace BattleArena
                 return false;
 
             if (!float.TryParse(reader.ReadLine(), out _defensePower))
+                return false;
+            if (!int.TryParse(reader.ReadLine(), out _currentGold))
                 return false;
 
             return true;

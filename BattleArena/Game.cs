@@ -39,16 +39,20 @@ namespace BattleArena
     class Game
     {
 
-        private bool _gameOver;
+
         private Scene _currentScene;
         public Shop _shop;
         private Player _player;
-        private Item[] _invenotry;
-        int itemIndex = 0;
+        //states Entity...
         private Entity[] _enemies;
-        private int _currentEnemyIndex;
         private Entity _currentEnemy;
+        //states Item...
+        private Item[] _inventory;
         private Item[] _shopItems;
+        //random variables...
+        private int _currentitemIndex = 0;
+        private int _currentEnemyIndex;
+        private bool _gameOver;
         private string _playerName;
 
         //the players Items
@@ -75,17 +79,15 @@ namespace BattleArena
         /// </summary>
         public void Start()
         {
-
-            //gives null so have the fix
-
             _gameOver = false;
             _currentScene = Scene.STARTMENU;
             InitializeEnemies();
             InitializeItems();
 
+            //made intences...
             _shop = new Shop(_shopItems);
             _player = new Player();
-            _invenotry = new Item[0];
+            _inventory = new Item[0];
         }
 
         public void InitializeItems()
@@ -110,9 +112,12 @@ namespace BattleArena
             _shop = new Shop(_shopItems);
         }
 
-
+        /// <summary>
+        /// gets the enemies and makes a instence...
+        /// </summary>
         public void InitializeEnemies()
         {
+            //makes currentEnemyIndex and states the enemies...
             _currentEnemyIndex = 0;
 
             Entity claud = new Entity("Claud", 70, 25, 45, 100);
@@ -121,16 +126,18 @@ namespace BattleArena
 
             Entity wompus = new Entity("Wompus", 225, 30, 25, 100);
 
+            //makes the enemy instence.
             _enemies = new Entity[] { claud, chad, wompus };
 
             _currentEnemy = _enemies[_currentEnemyIndex];
         }
 
-        //this do not work you should fix this...
+        //Prints the invenotry or get the length of the inventory...
         public void PrintInventory(Item[] _invenotry)
         {
-            for (int i = 1; i < _invenotry.Length; i++)
+            for (int i = 0; i < _invenotry.Length; i++)
             {
+                //and then prints there names.
                 Console.WriteLine((i + 1) + ". " + _invenotry[i].Name);
             }
         }
@@ -143,85 +150,43 @@ namespace BattleArena
             DisplayCurrentScene();
         }
 
-
+        /// <summary>
+        /// gets the options of the shop then gets the players money to see if they have enough...
+        /// then get the item Index then procedes to allow the player to choose the place to replace it.
+        /// </summary>
         public void DisplayShopMenuOptions()
         {
-            
+            int playerIndex = 0;
+            //get the players current gold and prints the the lines that follow...
             Console.WriteLine("You got " + _player.currentGold + " Gold.");
             Console.WriteLine("Your bag: ");
 
-
+            //gets choice or the players input and then lables the shop menu options.
             int choice = GetInput(" This is the Shop Hi and I hope you stay. ", _shop.GetShopMenuOptions());
 
-
-            if (choice >= 0 && choice < _shop.GetShopMenuOptions().Length)
+            if (choice == -1)
             {
+                Console.WriteLine("Invadie input. ");
+                return;
 
-                
-
-                if (_player.currentGold < _shopItems[itemIndex].ItemCost)
-                {
-                    Console.WriteLine("You cant afford this.");
-                    return;
-                }
-                else if (_player.currentGold >= _shopItems[itemIndex].ItemCost)
-                {
-                    
-                    if (choice == 0)
-                    {
-                        Console.WriteLine(" You bought big Axe");
-                        itemIndex = 0;
-
-                    }
-                    if (choice == 1)
-                    {
-                        Console.WriteLine(" You bought big Gun");
-                        itemIndex = 1;
-
-                    }
-                    if (choice == 2)
-                    {
-                        Console.WriteLine(" You bought big Shield");
-                        itemIndex = 2;
-          
-                    }
-                    if (choice == 3)
-                    {
-                        Console.WriteLine(" You bought force Shield");
-                        itemIndex = 3;
-     
-                    }
-
-                    Console.WriteLine("Choose a slot to replace.");
-                    PrintInventory(_player.GetInventory());
-                    char input = Console.ReadKey().KeyChar;
-
-                    int playerIndex = -1;
-                    switch (input)
-                    {
-                        case '1':
-                            {
-                                playerIndex = 0;
-                                break;
-                            }
-                        case '2':
-                            {
-                                playerIndex = 1;
-                                break;
-                            }
-                        default:
-                            {
-                                return;
-                            }
-                    }
-                    _shop.Sell(_player,itemIndex, playerIndex);
-
-
-                }
             }
+
+            if (_inventory.Length > 3)
+            {
+                playerIndex = 1;
+                choice = GetInput(" What item do you want to repace. ", _player.GetItemNames());
+
+            }
+
+            if(playerIndex == 1)
+               _shop.Sell(_player, _currentitemIndex = 1, playerIndex = 1);
+            
+            else
+                _shop.Sell(_player, _currentitemIndex = 1);
+
         }
 
- 
+
         /// <summary>
         /// This function is called before the applications closes
         /// </summary>
@@ -273,9 +238,9 @@ namespace BattleArena
 
 
             if (job == "gunner")
-                _player = new Player(_gunnerItems);
+                _player = new Player(_inventory);
             else if (job == "raider")
-                _player = new Player(_raiderItems);
+                _player = new Player(_inventory);
             else
                 loadSuccessful = false;
 
@@ -467,12 +432,12 @@ namespace BattleArena
 
             if (choice == 0)
             {
-                _player = new Player(_playerName, 100, 15, 225, 100, _gunnerItems, "gunner");
+                _player = new Player(_playerName, 100, 15, 225, 100, _inventory, "gunner");
                 _currentScene = Scene.BATTLE;
             }
             else if (choice == 1)
             {
-                _player = new Player(_playerName, 125, 225, 100, 200, _raiderItems, "raider");
+                _player = new Player(_playerName, 125, 225, 100, 200, _inventory, "raider");
                 _currentScene = Scene.BATTLE;
             }
         }

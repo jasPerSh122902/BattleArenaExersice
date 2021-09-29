@@ -8,18 +8,17 @@ namespace BattleArena
 
     class Player : Entity
     {
+        private Item[] _inventory;
         private Item _currentItem;
         private int _currentItemIndex;
-        private Item[] _inventory;
 
 
-        
         public Item[] GetInventory()
         {
            //its only use is to get the Invenotry of the player
            return _inventory;
         }
-        
+     
         public override float DefensePower
         {
             get
@@ -95,6 +94,23 @@ namespace BattleArena
 
             return true;
         }
+        public bool Buy(Item item )
+        {
+            Entity _entity = new Entity("bob", 100, 15, 225, 100);
+
+            //get the amount of gold the player has and consompares it to cost...
+            if (_entity._currentGold >= item.ItemCost)
+            {
+                //when in loop suptracts the player gold from cost..
+                _entity._currentGold -= item.ItemCost;
+
+                _currentItemIndex++;
+                //finds item in Index and adds it to inventory
+                return true;
+            }
+            //...returns false if player gold is not enough.
+            return false;
+        }
 
         public bool Buy(Item item, int inventoryIndex)
         {
@@ -107,7 +123,6 @@ namespace BattleArena
                 _entity._currentGold -= item.ItemCost;
 
                 //finds item in Index and adds it to inventory
-                GetInventory();
                 return true;
             }
             //...returns false if player gold is not enough.
