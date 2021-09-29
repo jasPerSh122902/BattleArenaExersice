@@ -8,9 +8,6 @@ namespace BattleArena
     class Entity
     {
         private Item[] _inventory;
-        private Shop _shop;
-        private Player _player;
-        private Enemy _enemy;
         private string _name;
         private float _health;
         private float _attackPower;
