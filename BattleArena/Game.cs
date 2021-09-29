@@ -28,10 +28,16 @@ namespace BattleArena
 
     public struct Item
     {
+        public Array[] _inventory;
+        
+
         public string Name;
         public int ItemCost;
         public float StatBoost;
         public ItemType Type;
+        private Item[] _raiderItems;
+        private Item[] _gunnerItems;
+
     }
 
 
@@ -42,11 +48,15 @@ namespace BattleArena
         private Scene _currentScene;
         public Shop _shop;
         private Player _player;
+        private Item[] _invenotry;
+        int itemIndex = 0;
         private Entity[] _enemies;
         private int _currentEnemyIndex;
         private Entity _currentEnemy;
         private Item[] _shopItems;
         private string _playerName;
+
+        //the players Items
         private Item[] _gunnerItems;
         private Item[] _raiderItems;
 
@@ -80,6 +90,7 @@ namespace BattleArena
 
             _shop = new Shop(_shopItems);
             _player = new Player();
+            _invenotry = new Item[0];
         }
 
         public void InitializeItems()
@@ -100,8 +111,10 @@ namespace BattleArena
 
             _shopItems = new Item[] { bigAxe, bigGun, bigShield, forceShield };
 
+
             _shop = new Shop(_shopItems);
         }
+
 
         public void InitializeEnemies()
         {
@@ -121,9 +134,9 @@ namespace BattleArena
         //this do not work you should fix this...
         public void PrintInventory(Item[] items)
         {
-            for (int i = 1; i < items.Length; i++)
+            for (int i = 1; i < _invenotry.Length; i++)
             {
-                Console.WriteLine((i + 1) + ". " + items[i].Name + items[i].ItemCost);
+                Console.WriteLine((i + 1) + ". " + _invenotry[i].Name);
             }
         }
 
@@ -134,9 +147,12 @@ namespace BattleArena
         {
             DisplayCurrentScene();
         }
+
+
         public void DisplayShopMenuOptions()
         {
-            int itemIndex = 0;
+            
+            int playerIndex = 0;
             Console.WriteLine("You got " + _player.currentGold + " Gold.");
             Console.WriteLine("Your bag: ");
 
@@ -146,6 +162,9 @@ namespace BattleArena
 
             if (choice >= 0 && choice < _shop.GetShopMenuOptions().Length)
             {
+
+                
+
                 if (_player.currentGold < _shopItems[itemIndex].ItemCost)
                 {
                     Console.WriteLine("You cant afford this.");
@@ -153,39 +172,41 @@ namespace BattleArena
                 }
                 else if (_player.currentGold >= _shopItems[itemIndex].ItemCost)
                 {
-                    Console.WriteLine("You havve bought the " + itemIndex + " good luck ");
-                    PrintInventory(_player.GetInventory());
-
-                    char input = Console.ReadKey().KeyChar;
-
-                    int playerIndex = -1;
-
-                    switch (input)
+                    
+                    if (choice == 0)
                     {
-                        case '1':
-                            {
-                                playerIndex = 0;
-                                break;
-                            }
-                        case '2':
-                            {
-                                playerIndex = 1;
-                                break;
-                            }
-                        case '3':
-                            {
-                                playerIndex = 2;
-                                break;
-                            }
-                        default:
-                            {
-                                return;
-                            }
+                        Console.WriteLine(" You bought big Axe");
+                        itemIndex = 0;
+                        playerIndex = 0;
                     }
+                    if (choice == 1)
+                    {
+                        Console.WriteLine(" You bought big Gun");
+                        itemIndex = 1;
+                        playerIndex = 1;
+                    }
+                    if (choice == 2)
+                    {
+                        Console.WriteLine(" You bought big Shield");
+                        itemIndex = 2;
+                        playerIndex = 2;
+                    }
+                    if (choice == 3)
+                    {
+                        Console.WriteLine(" You bought force Shield");
+                        itemIndex = 3;
+                        playerIndex = 3;
+                    }
+
+                    _shop.Sell(_player,itemIndex, playerIndex);
+                    _player.GetInventory();
+
+
                 }
             }
         }
 
+ 
         /// <summary>
         /// This function is called before the applications closes
         /// </summary>
@@ -458,7 +479,8 @@ namespace BattleArena
         public void DisplayEquipItemMenu()
         {
             //gets the item that player wants
-            int choice = GetInput("What item do you want. ", _player.GetItemNames());
+            int choice = GetInput("What item do you want. ",  _player.GetItemNames());
+            
 
             //equips item at given index
             if (!_player.TryEquipItem(choice))

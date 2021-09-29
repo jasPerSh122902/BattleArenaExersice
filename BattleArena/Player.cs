@@ -5,16 +5,31 @@ using System.IO;
 
 namespace BattleArena
 {
+
     class Player : Entity
     {
         private Item[] _items;
         private Item _currentItem;
         private int _currentItemIndex;
-        private Item[] _inventory;
-        private int _currentGold;
+        private Item[] _shopItems;
+        private Entity _entity;
+        private Game _game;
         private Enemy _enemy;
 
-
+        public Item[] _inventory
+        {
+            get
+            {
+                return _items;
+            }
+        }
+        
+        public Item[] GetInventory()
+        {
+           //its only use is to get the Invenotry of the player
+           return _inventory;
+        }
+        
         public override float DefensePower
         {
             get
@@ -42,13 +57,11 @@ namespace BattleArena
                 return _currentItem;
             }
         }
-
         public string Job { get; set; }
 
         //made a instence of player
         public Player()
         {
-            _inventory = new Item[0];
 
             _currentItem.Name = "Nothing";
             _currentItemIndex = -1;
@@ -66,7 +79,7 @@ namespace BattleArena
         public Player(string name, float health, float attackPower, float currentGold, int defensePower, Item[] items, string job) : base(name, health, currentGold, attackPower, defensePower)
         {
             //stated other varables that are needed
-            _inventory = _items;
+
             _items = items;
             _currentItem.Name = "Nothing";
             //and the job is set here
@@ -95,28 +108,24 @@ namespace BattleArena
 
         public bool Buy(Item item, int inventoryIndex)
         {
+            Entity _entity = new Entity("bob", 100, 15, 225, 100);
+            
             //get the amount of gold the player has and consompares it to cost...
-            if(_currentGold >= item.ItemCost)
+            if (_entity._currentGold >= item.ItemCost)
             {
                 //when in loop suptracts the player gold from cost..
-                _currentGold -= item.ItemCost;
+                _entity._currentGold -= item.ItemCost;
 
                 //finds item in Index and adds it to inventory
-                _inventory[inventoryIndex] = item;
-
+                GetInventory();
                 return true;
             }
             //...returns false if player gold is not enough.
             return false;
         }
-        //alows the attacker to get the gold from the enemy 
 
 
-        public Item[] GetInventory()
-        {
-            //its only use is to get the Invenotry of the player
-            return _inventory;
-        }
+ 
 
         /// <summary>
         /// allow the player to know if they have a current item by...
@@ -151,6 +160,7 @@ namespace BattleArena
             }
 
             //return the names of items
+            GetInventory();
             return itemNames;
         }
 

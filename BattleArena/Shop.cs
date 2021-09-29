@@ -47,7 +47,7 @@ namespace BattleArena
 
             if (player.Buy(itemToBuy, playerIndex))
             {
-                _currentGold += itemToBuy.ItemCost;
+                _currentGold -= itemToBuy.ItemCost;
                 return true;
             }
             return false;
