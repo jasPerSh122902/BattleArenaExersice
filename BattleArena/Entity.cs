@@ -7,7 +7,6 @@ namespace BattleArena
 {
     class Entity
     {
-        private Item[] _inventory;
         private string _name;
         private float _health;
         private float _attackPower;
@@ -68,7 +67,6 @@ namespace BattleArena
             _attackPower = attackPower;
             _defensePower = defensePower;
             _currentGold = currentGold;
-            _inventory = new Item[0];
         }
 
         public float TakeDamage(float damageAmount)

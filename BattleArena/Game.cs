@@ -28,15 +28,10 @@ namespace BattleArena
 
     public struct Item
     {
-        public Array[] _inventory;
-        
-
         public string Name;
         public int ItemCost;
         public float StatBoost;
         public ItemType Type;
-        private Item[] _raiderItems;
-        private Item[] _gunnerItems;
 
     }
 
@@ -132,7 +127,7 @@ namespace BattleArena
         }
 
         //this do not work you should fix this...
-        public void PrintInventory(Item[] items)
+        public void PrintInventory(Item[] _invenotry)
         {
             for (int i = 1; i < _invenotry.Length; i++)
             {
@@ -152,7 +147,6 @@ namespace BattleArena
         public void DisplayShopMenuOptions()
         {
             
-            int playerIndex = 0;
             Console.WriteLine("You got " + _player.currentGold + " Gold.");
             Console.WriteLine("Your bag: ");
 
@@ -177,29 +171,50 @@ namespace BattleArena
                     {
                         Console.WriteLine(" You bought big Axe");
                         itemIndex = 0;
-                        playerIndex = 0;
+
                     }
                     if (choice == 1)
                     {
                         Console.WriteLine(" You bought big Gun");
                         itemIndex = 1;
-                        playerIndex = 1;
+
                     }
                     if (choice == 2)
                     {
                         Console.WriteLine(" You bought big Shield");
                         itemIndex = 2;
-                        playerIndex = 2;
+          
                     }
                     if (choice == 3)
                     {
                         Console.WriteLine(" You bought force Shield");
                         itemIndex = 3;
-                        playerIndex = 3;
+     
                     }
 
+                    Console.WriteLine("Choose a slot to replace.");
+                    PrintInventory(_player.GetInventory());
+                    char input = Console.ReadKey().KeyChar;
+
+                    int playerIndex = -1;
+                    switch (input)
+                    {
+                        case '1':
+                            {
+                                playerIndex = 0;
+                                break;
+                            }
+                        case '2':
+                            {
+                                playerIndex = 1;
+                                break;
+                            }
+                        default:
+                            {
+                                return;
+                            }
+                    }
                     _shop.Sell(_player,itemIndex, playerIndex);
-                    _player.GetInventory();
 
 
                 }

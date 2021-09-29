@@ -7,31 +7,30 @@ namespace BattleArena
     class Shop : Game
     {
         private float _currentGold;
-        private Entity _entity;
-        private Item[] _shopItems;
+        private Item[] _inventory;
 
         
         public Shop()
         {
             _currentGold = 100;
-            _shopItems = new Item[4];
+            _inventory = new Item[4];
         }
         public Shop(Item[] items)
         {
             _currentGold = 1000;
-            _shopItems  = items;
+            _inventory = items;
         }
 
        
         public string[] GetShopMenuOptions()
         {
             //Create a new array with one more slot than the old array
-            string[] itemNames = new string[_shopItems.Length];
+            string[] itemNames = new string[_inventory.Length];
 
             //Copy the values from the old array into the new array
-            for (int i = 0; i < _shopItems.Length; i++)
+            for (int i = 0; i < _inventory.Length; i++)
             {
-                itemNames[i] = _shopItems[i].Name;
+                itemNames[i] = _inventory[i].Name;
 
             }
 
@@ -43,7 +42,7 @@ namespace BattleArena
 
          public bool Sell(Player player, int itemIndex, int playerIndex)
          {
-            Item itemToBuy = _shopItems[itemIndex];
+            Item itemToBuy = _inventory[itemIndex];
 
             if (player.Buy(itemToBuy, playerIndex))
             {

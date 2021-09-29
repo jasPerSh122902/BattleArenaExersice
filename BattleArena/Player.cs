@@ -8,21 +8,11 @@ namespace BattleArena
 
     class Player : Entity
     {
-        private Item[] _items;
         private Item _currentItem;
         private int _currentItemIndex;
-        private Item[] _shopItems;
-        private Entity _entity;
-        private Game _game;
-        private Enemy _enemy;
+        private Item[] _inventory;
 
-        public Item[] _inventory
-        {
-            get
-            {
-                return _items;
-            }
-        }
+
         
         public Item[] GetInventory()
         {
@@ -71,7 +61,7 @@ namespace BattleArena
         public Player(Item[] items) : base()
         {
             _currentItem.Name = "Nothing";
-            _items = items;
+            _inventory = items;
             _currentItemIndex = -1;
         }
 
@@ -80,7 +70,7 @@ namespace BattleArena
         {
             //stated other varables that are needed
 
-            _items = items;
+            _inventory = items;
             _currentItem.Name = "Nothing";
             //and the job is set here
             Job = job;
@@ -95,13 +85,13 @@ namespace BattleArena
         public bool TryEquipItem(int Index)
         {
             //this keeps tabs on the item and the index(or were it is at in the index)...
-            if (Index >= _items.Length || Index < 0)
+            if (Index >= _inventory.Length || Index < 0)
                 return false;
 
 
             _currentItemIndex = Index;
             //then sets item
-            _currentItem = _items[_currentItemIndex];
+            _currentItem = _inventory[_currentItemIndex];
 
             return true;
         }
@@ -150,17 +140,16 @@ namespace BattleArena
         public string[] GetItemNames()
         {
             //gets a string array and call it item names...
-            string[] itemNames = new string[_items.Length];
+            string[] itemNames = new string[_inventory.Length];
 
             //then made a for loop that gos through the array...
-            for (int i = 0; i < _items.Length; i++)
+            for (int i = 0; i < _inventory.Length; i++)
             {
                 //and gives the items i or items 1,2,3 a name
-                itemNames[i] = _items[i].Name;
+                itemNames[i] = _inventory[i].Name;
             }
 
             //return the names of items
-            GetInventory();
             return itemNames;
         }
 
