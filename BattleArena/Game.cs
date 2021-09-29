@@ -6,13 +6,11 @@ using System.IO;
 
 namespace BattleArena
 {
-
     public enum ItemType
     {
         DEFENSE,
         ATTACK,
         NONE
-
     }
 
 
@@ -23,7 +21,6 @@ namespace BattleArena
         CHARACTORSELECTION,
         BATTLE,
         RESTARTMENU
-
     }
 
     public struct Item
@@ -32,23 +29,23 @@ namespace BattleArena
         public int ItemCost;
         public float StatBoost;
         public ItemType Type;
-
     }
 
 
     class Game
     {
-
-
         private Scene _currentScene;
         public Shop _shop;
         private Player _player;
+
         //states Entity...
         private Entity[] _enemies;
         private Entity _currentEnemy;
+
         //states Item...
         private Item[] _inventory;
         private Item[] _shopItems;
+
         //random variables...
         private int _currentItemIndex = 0;
         private int _currentEnemyIndex;
