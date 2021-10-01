@@ -11,7 +11,7 @@ $User Interface$ :
 
 The game opens up as a text pannal which will ask you the player do you want to leave or player. This is to ensure the player did not open the tab or appliction with out wanting to and have that option. 
 
-![alt text](image.jpg)
+![The beging screenshot](StartBattle.png)
 
 $User Input$:
 
@@ -94,6 +94,8 @@ All object inherit from the game class and other varables that are ingerited for
 >+ *Name* : GetInput(string Description, params strig[] options) int
 >>+ Description : This is only meant to get the options that i want and gets the input form the player. And gives a error if the player picks something that is out of the choicees range.
 
+![This is the GetINput function in action](TheChoices.png)
+
 >+ *Name* : DisplayCurrentScene() void
 >>+ Description : Is a holder for the Scenes and allow the player to go between Scenes.
 
@@ -135,6 +137,7 @@ a counter for the gold or is a counter.
 >+ *Name* : Enemy(string name, float health, float attackPower, int currentGold, int defensePower) : base(name, health, currentGold, attackPower, defensePower)
 >>+ Description : Makes a instence of enemy and _currentGold.
 
+The Entity file is meant hold the idea of a player and entity as a netral idea to be used as both for easer coding and less lines.
 
 + $File Name$ : Entity.cs
 >+ *Name* : _name string
@@ -172,6 +175,8 @@ a counter for the gold or is a counter.
 
 >+ *Name* : Load() bool
 >>+ Description : Loads the eneney and player
+
+The player file holds the idea of player and all strings and arrays.
 
 + $File Name$ : Player.cs
 >+ *Name* : Item[] _invenotry
@@ -225,6 +230,7 @@ a counter for the gold or is a counter.
 >+ *Name* : GetITemName() string[]
 >>+ Description : Get the item names with a string array.
 
+The shop file has the shop that can be acessed by the player in the game.
 
 + $File Name$ : Shop.cs
 >+ *Name* : gold float
