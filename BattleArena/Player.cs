@@ -11,14 +11,15 @@ namespace BattleArena
         private Item[] _inventory;
         private Item _currentItem;
         private int _currentItemIndex;
-
+        private int _currentGold;
+        public int Gold { get { return _currentGold; } }
 
         public Item[] GetInventory()
         {
-           //its only use is to get the Invenotry of the player
-           return _inventory;
+            //its only use is to get the Invenotry of the player
+            return _inventory;
         }
-     
+
         public override float DefensePower
         {
             get
@@ -51,7 +52,7 @@ namespace BattleArena
         //made a instence of player
         public Player()
         {
-
+            _currentGold = Gold;
             _currentItem.Name = "Nothing";
             _currentItemIndex = -1;
         }
@@ -74,7 +75,7 @@ namespace BattleArena
             //and the job is set here
             Job = job;
             _currentItemIndex = -1;
-        }  
+        }
 
         /// <summary>
         /// This allow the player to get a current item...
@@ -87,51 +88,38 @@ namespace BattleArena
             if (Index >= _inventory.Length || Index < 0)
                 return false;
 
-
             _currentItemIndex = Index;
             //then sets item
             _currentItem = _inventory[_currentItemIndex];
 
             return true;
         }
-        public bool Buy(Item item )
+        /// <summary>
+        /// makes a array that allow the item to pasted into and increments through the inventory.
+        /// </summary>
+        /// <param name="item"></param>
+        public void Buy(Item item)
         {
-            Entity _entity = new Entity("bob", 100, 15, 225, 100);
 
-            //get the amount of gold the player has and consompares it to cost...
-            if (_entity._currentGold >= item.ItemCost)
-            {
-                //when in loop suptracts the player gold from cost..
-                _entity._currentGold -= item.ItemCost;
+            //creat a new int and set it to the curent size of the inventory plus one 
+            int newInventorySize = _inventory.Length + 1;
+            // creat a new class with the new size 
+            Item[] placeHolder = new Item[newInventorySize];
 
-                _currentItemIndex++;
-                //finds item in Index and adds it to inventory
-                return true;
-            }
-            //...returns false if player gold is not enough.
-            return false;
+            // reduce the players gold buy the item cost 
+            _currentGold -= item.Cost;
+
+            // for the many items that are in the players inventory...
+            for (int i = 0; i < _inventory.Length; i++)
+                //... place it in the new array
+                placeHolder[i] = _inventory[i];
+            //Once done add the new item bought
+            placeHolder[_inventory.Length] = item;
+            //Then replace the current array with the new array 
+            _inventory = placeHolder;
+
         }
 
-        public bool Buy(Item item, int inventoryIndex)
-        {
-            Entity _entity = new Entity("bob", 100, 15, 225, 100);
-            
-            //get the amount of gold the player has and consompares it to cost...
-            if (_entity._currentGold >= item.ItemCost)
-            {
-                //when in loop suptracts the player gold from cost..
-                _entity._currentGold -= item.ItemCost;
-
-                _currentItemIndex++;
-                //finds item in Index and adds it to inventory
-                return true;
-            }
-            //...returns false if player gold is not enough.
-            return false;
-        }
-
-
- 
 
         /// <summary>
         /// allow the player to know if they have a current item by...

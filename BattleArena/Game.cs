@@ -26,7 +26,7 @@ namespace BattleArena
     public struct Item
     {
         public string Name;
-        public int ItemCost;
+        public int Cost;
         public float StatBoost;
         public ItemType Type;
     }
@@ -37,13 +37,14 @@ namespace BattleArena
         private Scene _currentScene;
         public Shop _shop;
         private Player _player;
+        
 
         //states Entity...
         private Entity[] _enemies;
         private Entity _currentEnemy;
 
         //states Item...
-        private Item[] _inventory;
+        private Item _item;
         private Item[] _shopItems;
 
         //random variables...
@@ -53,6 +54,7 @@ namespace BattleArena
         private string _playerName;
 
         //the players Items
+
         private Item[] _gunnerItems;
         private Item[] _raiderItems;
 
@@ -84,24 +86,41 @@ namespace BattleArena
             //made intences...
             _shop = new Shop(_shopItems);
             _player = new Player();
-            _inventory = new Item[0];
         }
+        /// <summary>
+        /// Gets the players choice of character. Updates player stats based on
+        /// the character chosen.
+        /// </summary>
+        public void CharacterSelection()
+        {
+            int choice = GetInput("select you fighter", "Gunner", "Raider");
 
+            if (choice == 0)
+            {
+                _player = new Player(_playerName, 100, 15, 225, 100, _gunnerItems, "gunner");
+                _currentScene = Scene.BATTLE;
+            }
+            else if (choice == 1)
+            {
+                _player = new Player(_playerName, 125, 225, 100, 200, _raiderItems, "raider");
+                _currentScene = Scene.BATTLE;
+            }
+        }
         public void InitializeItems()
         {
-
+            
             //Gunner items
-            Item bigGun = new Item { Name = "Big Gun ", ItemCost = 25, StatBoost = 5, Type = ItemType.ATTACK };
-            Item bigShield = new Item { Name = "Big Shield ", ItemCost = 30, StatBoost = 15, Type = ItemType.DEFENSE };
+            Item bigGun = new Item { Name = "Big Gun ", Cost = 100, StatBoost = 5, Type = ItemType.ATTACK };
+            Item bigShield = new Item { Name = "Big Shield ", Cost = 100, StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Raider items
-            Item bigAxe = new Item { Name = "Big Axe ", ItemCost = 25, StatBoost = 15, Type = ItemType.ATTACK };
-            Item forceShield = new Item { Name = "Force Shield ", ItemCost = 34, StatBoost = 15, Type = ItemType.DEFENSE };
+            Item bigAxe = new Item { Name = "Big Axe ", Cost = 100, StatBoost = 15, Type = ItemType.ATTACK };
+            Item forceShield = new Item { Name = "Force Shield ", Cost = 100, StatBoost = 15, Type = ItemType.DEFENSE };
 
             //Initialize arrays
-            _gunnerItems = new Item[] { bigGun, bigShield };
+            _gunnerItems = new Item[] { bigGun };
 
-            _raiderItems = new Item[] { bigAxe, forceShield };
+            _raiderItems = new Item[] { bigAxe };
 
             _shopItems = new Item[] { bigAxe, bigGun, bigShield, forceShield };
 
@@ -146,51 +165,6 @@ namespace BattleArena
         {
             DisplayCurrentScene();
         }
-
-        /// <summary>
-        /// gets the options of the shop then gets the players money to see if they have enough...
-        /// then get the item Index then procedes to allow the player to choose the place to replace it.
-        /// </summary>
-        public void DisplayShopMenuOptions()
-        {
-            int playerIndex = 0;
-            //get the players current gold and prints the the lines that follow...
-            Console.WriteLine("You got " + _player.currentGold + " Gold.");
-            Console.WriteLine("Your bag: ");
-
-            //gets choice or the players input and then lables the shop menu options.
-            int choice = GetInput(" This is the Shop Hi and I hope you stay. ", _shop.GetShopMenuOptions());
-
-            //if player inputs a value that is not there...
-            if (choice == -1)
-            {
-                //error.
-                Console.WriteLine("Invadie input. ");
-                return;
-
-            }
-
-            //if the length of the inventory is biger than 3
-            if (_inventory.Length > 3)
-            {
-                //then set the player index to 1...
-                playerIndex = 1;
-                //then use the GetItemNames and replace the item you want to replace.
-                choice = GetInput(" What item do you want to repace. ", _player.GetItemNames());
-
-            }
-
-            //if the playerindex is 1 then sell...
-            if(playerIndex == 1)
-               _shop.Sell(_player, _currentItemIndex = 1, playerIndex = 1);
-
-            //if not then sell eny ways.
-            else
-                _shop.Sell(_player, _currentItemIndex = 1);
-
-        }
-
-
         /// <summary>
         /// This function is called before the applications closes
         /// </summary>
@@ -200,67 +174,98 @@ namespace BattleArena
             Console.ReadKey(true);
         }
 
-        public void Save()
+        /// <summary>
+        /// allow to Save and quit at eny time in the shop.
+        /// </summary>
+        /// <returns></returns>
+        private string[] GetShopMenuOptions()
         {
-            //create a new stream below
-            StreamWriter writer = new StreamWriter("SaveData.txt");
+            //gets the options for the menu to show up and allows...
+            string[] shopItems = _shop.GetItemNames();
+            string[] menuOptions = new string[shopItems.Length + 3];
 
-            //save enemies...
-            writer.WriteLine(_currentEnemyIndex);
+            //increment throw the shop items .
+            for (int i = 0; i < shopItems.Length; i++)
+            {
+                menuOptions[i] = shopItems[i];
+            }
+            //to laeve , save and ,quit in the shop at eny time.
+            menuOptions[shopItems.Length] = "Leave Shop";
+            menuOptions[shopItems.Length + 1] = "Save Game";
+            menuOptions[shopItems.Length + 2] = "Quit Game";
 
-            //saves player...
-            _player.Save(writer);
-            _currentEnemy.Save(writer);
-
-            //closes the writer when done saving.
-            writer.Close();
+            return menuOptions;
         }
 
-        public bool Load()
+        /// <summary>
+        /// gets the options of the shop then gets the players money to see if they have enough...
+        /// then get the item Index then procedes to allow the player to choose the place to replace it.
+        /// </summary>
+        public void DisplayShopMenuOptions()
         {
-            bool loadSuccessful = true;
+            // Sets a int variable to be the total size of items it want to be desplayed minus 3
+            int totalInventorySize = GetShopMenuOptions().Length - 3;
+            //print the players current gold holding
+            Console.WriteLine("Your gold: " + _player.Gold);
+            //LEt the user know where there inventory will be displayed at 
+            Console.WriteLine("Your Inventory:");
 
-            //figures out if file exists then if not load false.
-            if (!File.Exists("SaveData.txt"))
-                loadSuccessful = false;
+            //For every item the player has in there inventory. . . 
+            for (int i = 0; i < _player.GetItemNames().Length; i++)
+                //Dis play that items name to the screen 
+                Console.WriteLine(_player.GetItemNames()[i]);
 
+            //Get the players decision to what they would like to purchase
+            int choice = GetInput("\n What would you like to purchase?", GetShopMenuOptions());
 
-            //creas a new reader to read from the text file
-            StreamReader reader = new StreamReader("SaveData.txt");
+            //If the choice is less then the size between the options. . .
+            if (choice <= totalInventorySize)
+            {
+                //If the Shops Sells the item. . . 
+                if (_shop.Sell(_player, choice))
+                {
+                    if(choice == 4)
+                    {
+                        //gives input to the player...
+                        Console.WriteLine("You choose to leave shop and are now heading to battle . ");
+                        //set the scene.
+                        _currentScene = Scene.BATTLE;
+                    }
+                    else
+                    {
+                        //. . .Displays to the users that the shop just sold them that item
+                        Console.WriteLine("You purchased the " + _shop.GetItemNames()[choice]);
 
-            //if the first line can't be converted into an integer returns false.
-            if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
-                loadSuccessful = false;
+                        _player._currentGold -= 100;
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
 
-            string job = reader.ReadLine();
+                }
+                //else they cant buy the item
+                else
+                {
+                    //. . .Displays to them they can't purches said item
+                    Console.WriteLine("You don't have enough for that.");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+            // if the choice happens to bt the size plus 1. . .
+            else if (choice == (totalInventorySize + 1))
+            {
+                //. . .Data Gets Saved 
+                Save();
+                //. . .Tells the user they had saved successfully
+                Console.WriteLine("Save was succsessful");
+                Console.ReadLine();
+                Console.Clear();
+            }
+            // if the choice happens to bt the size plus 2. . .
+            else if (choice == (totalInventorySize + 2))
+                //The Update Loop Ends and the Game is Over
+                _gameOver = true;
 
-            if (job == "gunner")
-                _player = new Player(_inventory);
-            else if (job == "raider")
-                _player = new Player(_inventory);
-            else
-                loadSuccessful = false;
-
-            _player.Job = job;
-
-            if (!_player.Load(reader))
-                loadSuccessful = false;
-
-            //created a new instance and try to load the enemy
-            _currentEnemy = new Entity();
-
-            if (!_currentEnemy.Load(reader))
-                loadSuccessful = false;
-
-            //Updated the array to match the current enemey stats
-            _enemies[_currentEnemyIndex] = _currentEnemy;
-
-            _currentScene = Scene.BATTLE;
-
-            //make the reader cloase when finished
-            reader.Close();
-
-            return loadSuccessful;
         }
 
         /// <summary>
@@ -419,25 +424,7 @@ namespace BattleArena
 
         }
 
-        /// <summary>
-        /// Gets the players choice of character. Updates player stats based on
-        /// the character chosen.
-        /// </summary>
-        public void CharacterSelection()
-        {
-            int choice = GetInput("select you fighter", "Gunner", "Raider");
-
-            if (choice == 0)
-            {
-                _player = new Player(_playerName, 100, 15, 225, 100, _inventory, "gunner");
-                _currentScene = Scene.BATTLE;
-            }
-            else if (choice == 1)
-            {
-                _player = new Player(_playerName, 125, 225, 100, 200, _inventory, "raider");
-                _currentScene = Scene.BATTLE;
-            }
-        }
+        
 
         /// <summary>
         /// Prints a characters stats to the console
@@ -456,8 +443,8 @@ namespace BattleArena
         public void DisplayEquipItemMenu()
         {
             //gets the item that player wants
-            int choice = GetInput("What item do you want. ",  _player.GetItemNames());
-            
+            int choice = GetInput("What item do you want. ", _player.GetItemNames());
+
 
             //equips item at given index
             if (!_player.TryEquipItem(choice))
@@ -478,7 +465,7 @@ namespace BattleArena
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
 
-            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of you do you", "Attack ", "Equip item ", "Remove current item", "Go to the Shop! ","Leave: ", "Save. ");
+            int choice = GetInput("A " + _currentEnemy.Name + " stands there in frond of you do you", "Attack ", "Equip item ", "Remove current item", "Go to the Shop! ", "Leave: ", "Save. ");
 
             if (choice == 0)
             {
@@ -546,7 +533,7 @@ namespace BattleArena
         void CheckBattleResults()
         {
             //has to specifi the gold form the enemy.
-            float enemyGold = 0;
+            int enemyGold = 100;
 
             if (_player.Health <= 0)
             {
@@ -560,7 +547,7 @@ namespace BattleArena
             {
                 //if the enemy dies then there gold is given to the player but only 100...
                 _player._currentGold += 100;
-                Console.WriteLine("You slayed the " + _currentEnemy.Name + "You stole " + enemyGold + " gold!");
+                Console.WriteLine("You slayed the " + _currentEnemy.Name + " You stole " + _player.TakeGold(enemyGold) + " gold!");
                 Console.ReadKey();
                 Console.Clear();
                 //update the current enemy till completion.
@@ -580,5 +567,68 @@ namespace BattleArena
 
         }
 
+
+        public void Save()
+        {
+            //create a new stream below
+            StreamWriter writer = new StreamWriter("SaveData.txt");
+
+            //save enemies...
+            writer.WriteLine(_currentEnemyIndex);
+
+            //saves player...
+            _player.Save(writer);
+            _currentEnemy.Save(writer);
+
+            //closes the writer when done saving.
+            writer.Close();
+        }
+
+        public bool Load()
+        {
+            bool loadSuccessful = true;
+
+            //figures out if file exists then if not load false.
+            if (!File.Exists("SaveData.txt"))
+                loadSuccessful = false;
+
+
+            //creas a new reader to read from the text file
+            StreamReader reader = new StreamReader("SaveData.txt");
+
+            //if the first line can't be converted into an integer returns false.
+            if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
+                loadSuccessful = false;
+
+            string job = reader.ReadLine();
+            //load the items of the class that is choosen
+            if (job == "gunner")
+                _player = new Player(_gunnerItems);
+            else if (job == "raider")
+                _player = new Player(_raiderItems);
+            else
+                loadSuccessful = false;
+
+            _player.Job = job;
+
+            if (!_player.Load(reader))
+                loadSuccessful = false;
+
+            //created a new instance and try to load the enemy
+            _currentEnemy = new Entity();
+
+            if (!_currentEnemy.Load(reader))
+                loadSuccessful = false;
+
+            //Updated the array to match the current enemey stats
+            _enemies[_currentEnemyIndex] = _currentEnemy;
+
+            _currentScene = Scene.BATTLE;
+
+            //make the reader cloase when finished
+            reader.Close();
+
+            return loadSuccessful;
+        }
     }
 }

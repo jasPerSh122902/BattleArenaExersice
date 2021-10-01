@@ -109,7 +109,7 @@ namespace BattleArena
 
             return goldTaken;
         }
- 
+
         /// <summary>
         /// is meant to save all states that the player currently has and puts them in a file to save.
         /// </summary>
