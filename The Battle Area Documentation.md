@@ -11,6 +11,8 @@ $User Interface$ :
 
 The game opens up as a text pannal which will ask you the player do you want to leave or player. This is to ensure the player did not open the tab or appliction with out wanting to and have that option. 
 
+![alt text](image.jpg)
+
 $User Input$:
 
 The panal will update and will have options but the only input form the player that will work is the $Numbers$ The first few options of the game is to choose your class between raider and gunner. Each will allow the player to get to the end of the game.
