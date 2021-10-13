@@ -1,7 +1,7 @@
 # BattleArena
 
 # *How To Play*
-the battle will make you choose between options but to get those options you MUST use the numbers and no other means.
+the battle will make you choose between options but to use those options you MUST use the numbers and no other means.
 
 
 # *Rules*
